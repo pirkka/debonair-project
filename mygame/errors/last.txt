@@ -1,0 +1,3 @@
+* EXCEPTION: uninitialized constant GUI
+** Backtrace:
+*** app/main.rb:22:in tick

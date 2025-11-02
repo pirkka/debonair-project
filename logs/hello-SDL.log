@@ -1,0 +1,40 @@
+* [Engine] Log started at 2025/11/2 18:20:1
+* [Engine] DragonRuby Game Toolkit
+* [Engine]   Version: 6.38
+* [Engine]   Tier: Standard
+* [Engine]   GIT Hash: 3285b714da63a0b3638e32912ca522f25005393f
+* [Engine]   Build Date: Oct 18 2025 17:06:44
+* [Engine] Platform: Mac OS X
+* [Engine] 
+* [Engine] *******************************************************************************************
+* [Engine] *** This is the Standard license build!                                                 ***
+* [Engine] *** Get more with an Indie or Pro license such as C extensions, mobile dev, and Steam!  ***
+* [Engine] *** Details at http://dragonruby.org/#purchase                                          ***
+* [Engine] *******************************************************************************************
+* [Engine] 
+! [Engine] Metadata file does not have all required fields!
+- [Engine] Process Working Directory: /Users/pirkka/code/debonair/
+- [Engine] Game Dir: /Users/pirkka/code/debonair//mygame
+- [Engine] Game ID: hello-SDL
+- [Engine] Game Title: Update metadata/game_metadata.txt in your mygame directory to change this title.
+- [Engine] Game Version: 1.0
+- [Engine] Game Package ID: org.dragonruby.hello-SDL
+- [Engine] Game Developer ID: dragonruby
+- [Engine] Game Developer Title: DragonRuby LLC
+- [Engine] Production Build: no
+- [Engine] Remote Hotload: no
+? [Engine] Loading cvars from file 'metadata/cvars.txt' ...
+? [Engine] File 'metadata/cvars.txt' line 44 setting cvar 'log.filter_subsystems' to 'HTTPServer,HTTP'
+? [Engine] File 'metadata/cvars.txt' complete
+- [Render] SDL video backend: cocoa
+- [Render] SDL renderer backend: metal
+- [Render] Window size: 1280x720 (requested 1280x720)
+- [Render] Fullscreen Desktop mode: no
+- [Render] HD: no
+- [Render] HighDPI: no
+- [Render] Max texture size: 16384x16384 (system reported 16384x16384)
+- [Render] Logical render size: 1280x720
+- [Render] Native render size: 1280x720
+? [Engine] RNG seed has been set to 1762100401.
+- [Engine] Janitor is using 4 threads.
+* [Engine] Logging shutting down
