@@ -13,6 +13,7 @@ class Architect
   end
 
   def architect_dungeon(args)
+    Leaves.create_kinds(args)
     create_dungeon(args)
     populate_entities(args)
   end

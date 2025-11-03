@@ -6,6 +6,7 @@ require 'app/lib/tile'
 require 'app/lib/entity'
 require 'app/lib/hero'
 require 'app/lib/color_conversion'
+require 'app/lib/leaves'
 
 def boot args
   args.state = {}
