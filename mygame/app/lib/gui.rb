@@ -9,6 +9,7 @@ $min_zoom = 0.2
 class GUI
 
   @@hero_locked = false
+  @@just_used_staircase = false
 
   def self.handle_input args
 
@@ -151,6 +152,7 @@ class GUI
 
   def self.lock_hero
     @@hero_locked = true
+    @@just_used_staircase = false
   end
 
   def self.unlock_hero(args)
@@ -161,15 +163,19 @@ class GUI
     level = args.state.hero.level
     dungeon = args.state.dungeon
     tile = dungeon.levels[level].tiles[y][x]
-    if tile == :staircase_down
-      if level < dungeon.levels.size - 1
-        args.state.current_level += 1
-        args.state.hero.level += 1
-      end
-    elsif tile == :staircase_up
-      if level > 0
-        args.state.current_level -= 1
-        args.state.hero.level -= 1
+    unless @@just_used_staircase
+      if tile == :staircase_down
+        if level < dungeon.levels.size - 1
+          args.state.current_level += 1
+          args.state.hero.level += 1
+          @@just_used_staircase = true
+        end
+      elsif tile == :staircase_up
+        if level > 0
+          args.state.current_level -= 1
+          args.state.hero.level -= 1
+          @@just_used_staircase = true
+        end
       end
     end
   end

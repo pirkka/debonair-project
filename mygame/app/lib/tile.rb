@@ -70,6 +70,8 @@ class Tile
       }
     end
     unless Tile.occupied?(x, y, args)
+      # special tiles
+      c = Color.hsl_to_rgb(hue, 80, 80)  
       if tile == :staircase_up
         args.outputs.sprites << {
           x: x_offset + x * tile_size,
@@ -80,7 +82,10 @@ class Tile
           tile_x: 12*16,
           tile_y: 3*16,
           tile_w: 16,
-          tile_h: 16
+          tile_h: 16,
+          r: c[:r],
+          g: c[:g],
+          b: c[:b]
         }
       end
       if tile == :staircase_down
@@ -93,7 +98,10 @@ class Tile
           tile_x: 14*16,
           tile_y: 3*16,
           tile_w: 16,
-          tile_h: 16
+          tile_h: 16,
+          r: c[:r],
+          g: c[:g],
+          b: c[:b]
         }
       end
     end
