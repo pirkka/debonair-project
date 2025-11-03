@@ -12,7 +12,6 @@ class GUI
 
     # zooming with mouse wheel
     zoom_acceleration = 0.2
-    printf "\n"
     if args.inputs.mouse.wheel
       zoom_input = args.inputs.mouse.wheel.y
       printf "Zoom input: #{zoom_input}\n"
@@ -26,12 +25,9 @@ class GUI
     if $zoom_speed.abs < 0.1
       $zoom_speed = 0
     end
-    printf "Zoom speed: #{$zoom_speed}\n"
     zoom_delta = $zoom_speed
-    printf "Zoom delta: #{zoom_delta}\n"
     requested_zoom = $zoom + zoom_delta
     $zoom = requested_zoom.clamp($min_zoom, $max_zoom)
-    printf "Zoom level: #{$zoom}\n"
 
     # panning with touch/mouse drag
     if args.inputs.mouse.buffered_held && args.inputs.mouse.moved

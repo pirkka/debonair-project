@@ -6,6 +6,25 @@ class Tile
     [:floor, :wall, :water, :staircase_up, :staircase_down]
   end
 
+  def self.draw_tiles args
+    if args.state[:dungeon].nil?
+      return
+    end
+    dungeon = args.state[:dungeon]
+    level = dungeon.levels[args.state[:current_level]]
+    level_height = dungeon.levels[args.state[:current_level]].tiles.size
+    level_width = dungeon.levels[args.state[:current_level]].tiles[0].size
+    tile_size = 40 * $zoom
+    x_offset = $pan_x + (1280 - (level_width * tile_size)) / 2
+    y_offset = $pan_y + (720 - (level_height * tile_size)) / 2
+
+    for y in level.tiles.each_index
+      for x in level.tiles[y].each_index
+        Tile.draw(level.tiles[y][x], y, x, tile_size, x_offset, y_offset, args)
+      end
+    end
+  end
+
   def self.draw(tile, y, x, tile_size, x_offset, y_offset, args)
         color = case tile
           when :floor
