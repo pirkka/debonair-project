@@ -32,11 +32,11 @@ class Level
     # first put some walls in there
     for y in 0...@tiles.size
       for x in 0...@tiles[y].size
-        @tiles[y][x] = :wall unless @tiles[y][x] == :staircase_up
+        @tiles[y][x] = :rock unless @tiles[y][x] == :staircase_up
       end
     end
     # Code to create rooms in the level
-    room_target = Numeric.rand(5..10)
+    room_target = Numeric.rand(7..12)
     safety = 0  
     while @rooms.size < room_target do
       safety += 1
@@ -57,7 +57,7 @@ class Level
     @rooms.each do |room|
       for i in room.y...(room.y + room.h)
         for j in room.x...(room.x + room.w)
-          @tiles[i][j] = :floor if @tiles[i][j] == :wall
+          @tiles[i][j] = :floor if @tiles[i][j] == :rock
         end
       end
     end
@@ -76,7 +76,7 @@ class Level
     current_x = x1
     current_y = y1
     while current_x != x2 || current_y != y2 do
-      @tiles[current_y][current_x] = :floor if @tiles[current_y][current_x] == :wall
+      @tiles[current_y][current_x] = :floor if @tiles[current_y][current_x] == :rock
       if current_x < x2
         current_x += 1
       elsif current_x > x2
@@ -87,7 +87,9 @@ class Level
         current_y -= 1
       end
     end
-    @tiles[current_y][current_x] = :floor if @tiles[current_y][current_x] == :wall
+    @tiles[current_y][current_x] = :floor if @tiles[current_y][current_x] == :rock
+    # put door if it's a wall!
+    @tiles[current_y][current_x] = :closed_door if @tiles[current_y][current_x] == :wall
   end
 
   def create_corridors(args)
@@ -144,7 +146,7 @@ class Level
               current_y -= 1
             end
           end
-          @tiles[current_y][current_x] = :floor if @tiles[current_y][current_x] == :wall
+          @tiles[current_y][current_x] = :floor if @tiles[current_y][current_x] == :rock
         end
         corridors += 1
       end

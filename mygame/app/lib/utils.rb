@@ -10,7 +10,7 @@ module Utils
     line_points.pop
     line_points.each do |point|
       tile = level.tiles[point[:y]][point[:x]]
-      if tile == :wall
+      if Tile.blocks_line_of_sight?(tile)
         return false
       end
     end

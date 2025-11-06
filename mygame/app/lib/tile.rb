@@ -5,7 +5,15 @@ class Tile
   @@tile_visibility_per_level = []
 
   def self.tile_types
-    [:floor, :wall, :water, :staircase_up, :staircase_down, :chasm]
+    [:floor, :rock, :wall, :water, :staircase_up, :staircase_down, :chasm]
+  end
+
+  def self.blocks_line_of_sight?(tile_type)
+    return [:wall, :rock, :closed_door].include?(tile_type)
+  end
+
+  def self.is_walkable?(tile_type, args)
+    return [:floor, :staircase_up, :staircase_down].include?(tile_type)
   end
 
   def self.occupied?(x, y, args)
@@ -84,19 +92,24 @@ class Tile
 
   def self.draw(tile, y, x, tile_size, x_offset, y_offset, hue, visible, args)
     # base color
-    saturation_modifier = visible ? 1.0 : 0.3
+    saturation_modifier = visible ? 1.0 : 0.7
     lightness_modifier = visible ? 1.0 : 0.4
     color = case tile
+      when :rock
+        Color.hsl_to_rgb(hue, 80 * saturation_modifier, 70 * lightness_modifier)
+      when :floor
+        Color.hsl_to_rgb(hue, 80 * saturation_modifier, 0 * lightness_modifier)
       when :wall
-        Color.hsl_to_rgb(hue, 80 * saturation_modifier, 20 * lightness_modifier)
+        Color.hsl_to_rgb(hue, 50 * saturation_modifier, 80 * lightness_modifier)
       when :water
         { r: 0, g: 0, b: 255 }
-      when :unknown
-        { r: 0, g: 0, b: 0 }
+      when :chasm
+        { r: 0, g: 0, b: 120 }
       else
-        Color.hsl_to_rgb(hue, 80 * saturation_modifier, 30 * lightness_modifier)
+        { r: 0, g: 0, b: 0 }
       end
-    args.outputs.solids << { x: x_offset + x * tile_size,
+    args.outputs.solids << { 
+      x: x_offset + x * tile_size,
       y: y_offset + y * tile_size,
       w: tile_size,
       h: tile_size,
@@ -108,31 +121,38 @@ class Tile
     # floor decoration
     if tile == :floor
       # highlight square
-      c = Color.hsl_to_rgb(hue, 80 * saturation_modifier, 40 * lightness_modifier)
-      margin = tile_size * 0.075
-      args.outputs.solids << { x: x_offset + margin + x * tile_size,
-        y: y_offset + margin + y * tile_size,
-        w: tile_size - margin * 2,
-        h: tile_size - margin * 2,
-        path: :solid,
+      c = Color.hsl_to_rgb(hue, 80 * saturation_modifier, 80 * lightness_modifier)
+      rotation = (x+y) % 4 # 0, 90, 180, 270 degrees
+      angle = rotation * 90
+      args.outputs.sprites << {
+        x: x_offset + x * tile_size,
+        y: y_offset + y * tile_size,
+        w: tile_size,
+        h: tile_size,
+        angle: angle,
+        path: "mygame/sprites/tile/gravel.png",
         r: c[:r],
         g: c[:g],
-        b: c[:b] 
+        b: c[:b]
       }
     end
-    # wall decoration
-    if tile == :wall
-      # highlight square
-      c = Color.hsl_to_rgb(hue, 80 * saturation_modifier, 10 * lightness_modifier)
-      margin = tile_size * 0.075
-      args.outputs.solids << { x: x_offset + margin + x * tile_size,
-        y: y_offset + margin + y * tile_size,
-        w: tile_size - margin * 2,
-        h: tile_size - margin * 2,
-        path: :solid,
+    # rock decoration
+    if tile == :rock
+      # highlight 
+      c = Color.hsl_to_rgb(hue, 50 * saturation_modifier, 0 * lightness_modifier)
+      margin = 0  
+      rotation = (x+y) % 4 # 0, 90, 180, 270 degrees
+      angle = rotation * 90
+      args.outputs.sprites << {
+        x: x_offset + x * tile_size,
+        y: y_offset + y * tile_size,
+        w: tile_size,
+        h: tile_size,
+        angle: angle,
+        path: "mygame/sprites/tile/rock.png",
         r: c[:r],
         g: c[:g],
-        b: c[:b] 
+        b: c[:b]
       }
     end
     unless Tile.occupied?(x, y, args)

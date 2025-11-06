@@ -165,7 +165,7 @@ class GUI
       return
     end
     target_tile = args.state.dungeon.levels[hero.level].tiles[hero.y + dy][hero.x + dx]
-    if target_tile == :wall || target_tile == :water || target_tile == :chasm
+    unless Tile.is_walkable?(target_tile, args)
       return
     end
     # we are cleared to move

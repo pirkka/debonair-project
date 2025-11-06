@@ -1,3 +1,5 @@
+#$gtk.trace_nil_punning!
+
 $debug = false
 $zoom = 0.7
 $pan_x = 0.0
