@@ -1,11 +1,13 @@
 class GUI
 
-  @@hero_locked = false
-  @@just_used_staircase = false
-  @@input_cooldown = 0
-  @@moving_frames = 0
-  @@standing_still_frames = 0
-  @@tiles_observed = false
+  def self.initialize_state args
+    @@hero_locked = false
+    @@just_used_staircase = true
+    @@input_cooldown = 0
+    @@moving_frames = 0
+    @@standing_still_frames = 0
+    @@tiles_observed = false
+  end
 
   def self.standing_still_frames
     return @@standing_still_frames
@@ -245,6 +247,9 @@ class GUI
           args.state.staircase = :up
           @@just_used_staircase = true
           args.state.scene = :staircase
+        else
+          # reached the surface, game over          
+          args.state.scene = :game_over
         end
       end
     end
@@ -264,18 +269,18 @@ class GUI
     hero_center_x = x_offset + x * tile_size + tile_size / 2
     hero_center_y = y_offset + y * tile_size + tile_size / 2
 
-    allowed_margin = 0.2 # percentage of screen size
-    if hero_center_x < $gui_width * allowed_margin || hero_center_x > $gui_width * (1 - allowed_margin)
+    if hero_center_x < $gui_width * $auto_pan_margin || hero_center_x > $gui_width * (1 - $auto_pan_margin)
       # let's set a horizontal pan target
       # desired x offset to center hero
       desired_x_offset = $gui_width / 2 - (x * tile_size + tile_size / 2)
-      $pan_x += (desired_x_offset - x_offset) * 0.01
+      $pan_x += (desired_x_offset - x_offset) * $auto_pan_speed
     end
-    if hero_center_y < $gui_height * allowed_margin || hero_center_y > $gui_height * (1 - allowed_margin)
+
+    if hero_center_y < $gui_height * $auto_pan_margin || hero_center_y > $gui_height * (1 - $auto_pan_margin)
       # let's set a vertical pan target
       # desired y offset to center hero
       desired_y_offset = $gui_height / 2 - (y * tile_size + tile_size / 2)
-      $pan_y += (desired_y_offset - y_offset) * 0.01
+      $pan_y += (desired_y_offset - y_offset) * $auto_pan_speed
     end
     
   end
