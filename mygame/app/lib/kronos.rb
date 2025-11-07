@@ -33,7 +33,7 @@ class Kronos
         idle_entity = entity
       end
     end
-    @world_time = min_busy_until
+    @world_time = min_busy_until unless min_busy_until < @world_time # time cannot go backwards
     idle_entity.take_action args 
   end
 end
