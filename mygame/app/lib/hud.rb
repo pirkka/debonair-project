@@ -16,7 +16,7 @@ class HUD
       args.outputs.labels << {
         x: 700,
         y: 40,
-        text: "Seed: #{seed}",
+        text: "Seed: #{seed} World Time: #{args.state.kronos.world_time.to_i}",
         size_enum: 0,
         r: 255,
         g: 255,

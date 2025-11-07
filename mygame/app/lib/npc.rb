@@ -1,48 +1,54 @@
 class NPC < Entity
-  attr_accessor :char, :species, :emote, :has_been_seen
+  attr_accessor :char, :species, :has_been_seen, :level
 
-  def initialize(species, emote, x = 0, y = 0)
+  def initialize(species, x = 0, y = 0, level_depth = 0)
     @kind = :npc
     @species = species
-    @emote = emote
     @has_been_seen = false
     @home = [x, y]
-    @home_level = nil
+    @home_level = level_depth
+    @level = level_depth
     super(x, y)
   end
 
   def color
     case @species
-    when 'goblin'
+    when :goblin
       return [20, 125, 20]
-    when 'grid bug'
+    when :grid_bug
       return [255, 0, 255]
-    when 'rat'
+    when :rat
       return [80, 70, 48]
     else
       return [255, 255, 255]
     end
   end
   
-  def c
+  def c 
+    # character representation from the sprite sheet
     case @species
-    when 'goblin'
+    when :goblin
       return [8,4]
-    when 'grid bug'
+    when :grid_bug
       return [8,7]
-    when 'rat'
+    when :rat 
       return [2,7]
     else
       return [16,14]
     end
   end
 
-  def perform_emote
-    puts "#{@species} performs emote: #{@emote}"
-  end
-
-  def speak
-    puts "#{@species} says: #{@dialogue}"
+  def emote
+    case @species
+    when :goblin
+      return "grins mischievously"
+    when :grid_bug
+      return "makes weird noise"
+    when :rat
+      return "growls hungrily"
+    else
+      return "looks around"
+    end
   end
 
   def self.populate_dungeon(dungeon, args)
@@ -55,15 +61,59 @@ class NPC < Entity
     level.rooms.each do |room|
       case args.state.rng.d6
       when 1
-        npc = NPC.new('goblin', 'grins mischievously', room.center_x, room.center_y, level.depth)
+        npc = NPC.new(:goblin, room.center_x, room.center_y, level.depth)
         level.entities << npc
       when 2
-        npc = NPC.new('grid bug', 'makes weird noise', room.center_x, room.center_y, level.depth)
+        npc = NPC.new(:grid_bug, room.center_x, room.center_y, level.depth)
         level.entities << npc
       when 3
-        npc = NPC.new('rat', 'growls hungrily', room.center_x, room.center_y, level.depth)
+        npc = NPC.new(:rat, room.center_x, room.center_y, level.depth)
         level.entities << npc
       end
     end
   end
+
+  def walking_speed
+    case @species
+    when :goblin
+      return 1.4 # seconds per tile
+    when :grid_bug
+      return 0.7
+    when :rat
+      return 0.8
+    else
+      return 1.0
+    end
+  end
+
+  def take_action args
+    # simple random walk AI
+    target_coordinates = nil
+    case args.state.rng.d6
+    when 1
+      # move up
+      target_coordinates = [@x, @y + 1]
+    when 2
+      # move down
+      target_coordinates = [@x, @y - 1]
+    when 3
+      # move left
+      target_coordinates = [@x - 1, @y]
+    when 4
+      # move right
+      target_coordinates = [@x + 1, @y]
+    else
+      # do nothing
+    end
+    if target_coordinates
+      level = args.state.dungeon.levels[self.level]
+      target_tile = level.tiles[target_coordinates[1]][target_coordinates[0]]
+      if Tile.is_walkable?(target_tile, args) && !Tile.occupied?(target_coordinates[0], target_coordinates[1], args)
+        @x = target_coordinates[0]
+        @y = target_coordinates[1]
+      end
+    end
+    args.state.kronos.spend_time(self, self.walking_speed, args) # NPC spends 1 second per action
+  end
+
 end

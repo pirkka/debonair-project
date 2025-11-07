@@ -17,7 +17,12 @@ class Tile
   end
 
   def self.occupied?(x, y, args)
-    # deprecated!!!
+    level = args.state.dungeon.levels[args.state.current_level]
+    level.entities.each do |entity|
+      if entity.x == x && entity.y == y
+        return true
+      end
+    end 
     return false
   end
 

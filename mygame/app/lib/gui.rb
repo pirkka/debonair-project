@@ -180,10 +180,14 @@ class GUI
     unless Tile.is_walkable?(target_tile, args)
       return
     end
+    if Tile.occupied?(hero.x + dx, hero.y + dy, args)
+      return
+    end
     # we are cleared to move
     GUI.lock_hero
     hero.x += dx # logical position is updated first, visual changes later
     hero.y += dy
+    args.state.kronos.spend_time(hero, hero.walking_speed, args) # spending 1 second per move
   end
 
   def self.update_entity_animations args

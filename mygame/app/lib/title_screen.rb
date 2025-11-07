@@ -14,12 +14,13 @@ class TitleScreen
 
   def self.start_new_game args
       Architect.create_seed(args)
-      Architect.set_seed(args, 'jolly developers II') # for testing purposes
+      #Architect.set_seed(args, 'jolly developeeers III') # for testing purposes
       Architect.use_seed(args)
       Architect.instance.setup({})
       Architect.instance.architect_dungeon(args)
       args.state.current_level = 0
       GUI.initialize_state args
+      args.state.kronos = Kronos.new
       printf "Game start complete.\n"
       printf "Dungeon has %d levels.\n" % args.state.dungeon.levels.size
       args.state.dungeon.levels.each_with_index do |level, index|
