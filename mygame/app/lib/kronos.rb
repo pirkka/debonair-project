@@ -1,3 +1,20 @@
+class Action
+  # kinds
+  # execute_time
+  # recovery_time 
+  attr_accessor :kind, :execute_time, :recovery_time
+  def initialize kind, execute_time, recovery_time, target=nil
+    @kind = kind
+    @execute_time = execute_time
+    @recovery_time = recovery_time
+    @target = target
+  end
+
+  def self.kinds
+    return [:move_up, :move_down, :move_left, :move_right, :wait, :special_ability]
+  end
+end
+
 class Kronos
   # the timekeeper
   @world_time = 0 # in simulation seconds since game start
@@ -16,8 +33,6 @@ class Kronos
   end
 
   def advance_time args
-    # note: currently only the entities in the current level are considered
-    # we might change this pretty soon
     # every entity needs to be busy most of the time. even idling.
     all_entities = []
     for level in args.state.dungeon.levels

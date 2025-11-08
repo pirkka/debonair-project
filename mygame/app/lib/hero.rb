@@ -87,8 +87,14 @@ class Hero < Entity
     if @age == :elder
       seconds_per_tile += 0.5
     end
-    if @trait == :cyborg || @trait == :robot
+    if @trait == :robot
+      seconds_per_tile += 0.1
+    end
+    if @trait == :cyborg 
       seconds_per_tile -= 0.3
+    end
+    if @species == :duck
+      seconds_per_tile += 0.3
     end
     return seconds_per_tile
   end
