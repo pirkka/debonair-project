@@ -1,5 +1,30 @@
 class HUD
+
+  def self.draw_items args
+    hero = args.state.hero
+    return unless hero && hero.carried_items.any?
+    carried_items = hero.carried_items
+    x = 900
+    y = 700
+    item_size = 20
+    carried_items.each_with_index do |item, index|
+      args.outputs.labels << {
+        x: x,
+        y: y,
+        text: item.kind.to_s.gsub('_',' '),
+        size_enum: 0,
+        r: 255,
+        g: 255,
+        b: 255,
+        a: 255,
+        font: "fonts/olivetti.ttf"
+      }
+      y -= item_size
+    end
+  end
+
     def self.draw args
+      self.draw_items args
       hero = args.state.hero
       args.outputs.labels << {
         x: 10,

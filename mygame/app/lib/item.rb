@@ -22,11 +22,11 @@ class Item
     # character representation from the sprite sheet
     case @category
     when :food
-      return [0,5]
+      return [5,2]
     when :weapon
-      return [3,0]
+      return [9,2]
     when :potion
-      return [1,0]
+      return [1,2]
     when :armor
       return [2,0]
     when :scroll
