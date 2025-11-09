@@ -13,6 +13,18 @@ class SeededRandom
     nxt_int(1, 6)
   end
 
+  def d8
+    nxt_int(1, 8)
+  end
+
+  def d10
+    nxt_int(1, 10)
+  end 
+
+  def d12
+    nxt_int(1, 12)
+  end
+
   def d20
     nxt_int(1, 20)
   end

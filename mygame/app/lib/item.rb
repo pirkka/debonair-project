@@ -1,5 +1,6 @@
 class Item
   attr_accessor :kind, :category, :cursed, :identified, :level, :x, :y
+  attr_reader :attributes
   def initialize(kind, category, identified = false)
     @kind = kind
     @category = category
@@ -8,10 +9,19 @@ class Item
     @level = nil
     @x = nil
     @y = nil
+    @attributes = []
   end
 
   def self.categories
     return [:food, :weapon, :potion, :armor, :scroll, :wand, :ring, :scroll, :amulet, :gloves, :footwear, :helmet]
+  end
+
+  def add_attribute(attribute)
+    @attributes << attribute unless @attributes.include?(attribute)
+  end
+
+  def remove_attribute(attribute)
+    @attributes.delete(attribute)
   end
 
   def color
@@ -34,7 +44,7 @@ class Item
     when :wand
       return [4,0]
     when :ring
-      return [5,0]
+      return [13,3]
     when :amulet
       return [15,0]
     when :gloves
@@ -70,8 +80,13 @@ class Item
       item.y = room.center_y
       level.items << item
     when 3
-      item = Item.new(:dagger, :weapon)
+      item = Ring.new(Ring.kinds.sample)
       item.level = level.depth
+      item.x = room.center_x
+      item.y = room.center_y
+      level.items << item
+    when 4
+      item = Weapon.randomize(level.depth, args)
       item.x = room.center_x
       item.y = room.center_y
       level.items << item
