@@ -874,7 +874,7 @@
    Take a look at the audio_mixer sample app for full api usage.
 ** [Samples] Audio Mixer sample app got a solid facelift. =./samples/07_advanced_audio/01_audio_mixer/app/main.rb=
 ** [Samples] Performance based sample apps are better labeled and contain documentation/fixes for new override methods.
-** [Support] The sprites under ~mygame/sprites/(square|circle|isometric|hexagon)~ have been redone (a lot nicer looking).
+** [Support] The sprites under ~sprites/(square|circle|isometric|hexagon)~ have been redone (a lot nicer looking).
 ** [Support] ~args.outputs.lines~ can now accept rectangular primitives ~(x|y|w|h)~.
    If the primitive does not respond to ~(x2|y2)~, then ~(w|h)~ will be used to derive ~(x2|y2)~. This
    change makes the definition of horizontal and vertical lines more intuitive.
