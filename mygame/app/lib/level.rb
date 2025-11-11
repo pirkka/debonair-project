@@ -14,6 +14,15 @@ class Level
     @items = []
   end
 
+  def entity_at(x, y)
+    @entities.each do |entity|
+      if entity.x == x && entity.y == y
+        return entity
+      end
+    end
+    return nil
+  end
+
   def create_rooms(args)
     # first put some walls in there
     for y in 0...@tiles.size

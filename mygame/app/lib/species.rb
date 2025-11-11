@@ -22,6 +22,66 @@ class Species
     ]
   end
 
+  def self.mammal_body_parts
+    [
+      :heart,
+      :lungs,
+      :brain,
+      :left_front_foot,
+      :right_front_foot,
+      :left_hind_foot,
+      :right_hind_foot,
+      :left_front_leg,
+      :right_front_leg,
+      :left_hind_leg,
+      :right_hind_leg,
+      :spine,
+      :left_eye,
+      :right_eye,
+      :liver,
+      :left_kindey,
+      :right_kidney,
+      :intestines,
+      :stomach,
+      :colon,
+      :left_hip,
+      :right_hip,
+      :left_thigh,
+      :right_thigh,
+      :left_calf,
+      :right_calf,
+      :nozzle,
+      :left_ear,
+      :right_ear,
+      :left_temple,
+      :right_temple,
+      :top_of_skull,
+      :forehead,
+      :jaw,
+      :back_of_skull      
+    ]
+  end
+
+  def self.bug_body_parts
+    [
+      :head,
+      :thorax,
+      :abdomen,
+      :left_front_leg,
+      :right_front_leg,
+      :left_middle_leg,
+      :right_middle_leg,
+      :left_hind_leg,
+      :right_hind_leg,
+      :left_antenna,
+      :right_antenna,
+      :left_wing,
+      :right_wing,
+      :mandibles,
+      :eyes
+    ]
+  end
+
   def self.humanoid_body_parts
     [
       :heart,

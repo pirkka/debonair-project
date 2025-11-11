@@ -12,6 +12,10 @@ class NPC < Entity
     super(x, y)
   end
 
+  def name
+    @species.to_s.capitalize.gsub('_',' ')
+  end
+
   def color
     case @species
     when :goblin

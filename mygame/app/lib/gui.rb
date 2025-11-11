@@ -238,7 +238,11 @@ class GUI
       return false
     end
     if Tile.occupied?(hero.x + dx, hero.y + dy, args)
-      return false
+      GUI.lock_hero
+      npc = args.state.dungeon.levels[hero.level].entity_at(hero.x + dx, hero.y + dy)
+      Combat.resolve_attack(hero, npc, args)
+      args.state.kronos.spend_time(hero, hero.walking_speed, args) # todo fix speed depending on action
+      return true
     end
     # we are cleared to move
     GUI.lock_hero

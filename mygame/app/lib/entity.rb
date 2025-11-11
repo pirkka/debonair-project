@@ -19,4 +19,20 @@ class Entity
   def color
     return [255, 255, 255]
   end
+
+  def random_body_part(args)
+    parts = body_parts
+    parts[args.state.rng.rand(parts.length)]
+  end
+
+  def body_parts
+    case @species
+    when :grid_bug
+      return Species.bug_body_parts
+    when :rat
+      return Species.mammal_body_parts
+    else
+      return Species.humanoid_body_parts
+    end
+  end
 end
