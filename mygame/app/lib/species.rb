@@ -1,0 +1,85 @@
+# never instantiated
+class Species
+  def self.npc_species    
+    [
+      :goblin, 
+      :grid_bug, 
+      :rat
+    ]
+  end
+  def self.hero_species
+      [
+      :human,
+      :elf,
+      :dwarf,
+      :orc,
+      :gnome,
+      :halfling,
+      :dark_elf,
+      :goblin,
+      :troll,
+      :duck # glorantha style
+    ]
+  end
+
+  def self.humanoid_body_parts
+    [
+      :heart,
+      :lungs,
+      :brain,
+      :left_knee,
+      :right_knee,
+      :left_elbow,
+      :right_elbow,
+      :left_palm,
+      :right_palm,
+      :left_foot,
+      :right_foot,
+      :spine,
+      :left_eye,
+      :right_eye,
+      :liver,
+      :left_kindey,
+      :right_kidney,
+      :intestines,
+      :fingers_of_left_hand,
+      :fingers_of_right_hand,
+      :toes_of_left_foot,
+      :toes_of_right_foot,
+      :left_heel,
+      :right_heel,
+      :stomach,
+      :colon,
+      :genitals,
+      :teeth,
+      :left_hip,
+      :right_hip,
+      :left_thigh,
+      :right_thigh,
+      :left_calf,
+      :right_calf,
+      :calf_right,
+      :left_shoulder,
+      :right_shoulder,
+      :nose,
+      :left_ear,
+      :right_ear,
+      :left_wrist,
+      :right_wrist,
+      :left_ankle,
+      :right_ankle,
+      :left_bicep,
+      :right_bicep,
+      :left_forearm,
+      :right_forearm,
+      :left_temple,
+      :right_temple,
+      :top_of_skull,
+      :forehead,
+      :jaw,
+      :left_cheek,
+      :right_cheek,
+      :back_of_skull
+    ]
+  end
+end

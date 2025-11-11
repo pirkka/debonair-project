@@ -1,7 +1,7 @@
 class Entity
   # x and y are the logical positions in the grid
   # visual_x and visual_y are used for smooth movement animations
-  attr_accessor :level, :x, :y, :kind, :visual_x, :visual_y, :busy_until
+  attr_accessor :level, :x, :y, :kind, :visual_x, :visual_y, :busy_until, :traumas
 
   def self.kinds
     [:generic, :item, :pc, :npc, :plant, :furniture]
@@ -13,6 +13,7 @@ class Entity
     @kind = kind # item, pc, npc, etc.
     @visual_x = x
     @visual_y = y
+    @traumas = []
   end
   
   def color

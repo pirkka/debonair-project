@@ -53,10 +53,33 @@ class HUD
     }
   end
 
+  def self.draw_messages args
+    hud_messages = args.state.hud_messages || []
+    x = 10
+    y = 700
+    line = 0
+    message_size = 20
+    hud_messages.each do |message|
+      args.outputs.labels << {
+        x: x,
+        y: y - line * message_size,
+        text: message[:text],
+        size_enum: 0,
+        r: 255,
+        g: 255,
+        b: 255,
+        a: 255,
+        font: "fonts/olivetti.ttf"
+      }
+      line += 1
+    end
+  end
+
     def self.draw args
       self.draw_items args
       self.draw_hero_info args
       self.draw_seed args
+      self.draw_messages args
       self.debug_info args if $debug
     end
 
@@ -92,4 +115,13 @@ class HUD
         }
       end
     end
+
+    def self.output_message args, message
+      args.state.hud_messages ||= []
+      args.state.hud_messages << { text: message, time: args.state.kronos.world_time }
+      # keep only last 5 messages
+      if args.state.hud_messages.size > 5
+        args.state.hud_messages.shift
+      end
+    end 
 end

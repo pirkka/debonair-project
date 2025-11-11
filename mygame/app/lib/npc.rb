@@ -116,8 +116,12 @@ class NPC < Entity
         @x = target_coordinates[0]
         @y = target_coordinates[1]
       end
+      if target_coordinates[0] == args.state.hero.x && target_coordinates[1] == args.state.hero.y && self.level == args.state.hero.level
+        # attack hero
+        Combat.resolve_attack(self, args.state.hero, args)
+      end
     end
-    args.state.kronos.spend_time(self, self.walking_speed, args) 
+    args.state.kronos.spend_time(self, self.walking_speed, args) # todo fix speed depending on action
   end
 
 end
