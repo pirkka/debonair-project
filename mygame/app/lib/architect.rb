@@ -59,8 +59,8 @@ class Architect
   def create_dungeon(args)
     # Code to create the dungeon layout
     dungeon = Dungeon.new
-    staircase_x = rand(@settings[:level_width])
-    staircase_y = rand(@settings[:level_height])
+    staircase_x = rand(@settings[:level_width]-2) + 1
+    staircase_y = rand(@settings[:level_height]-2) + 1
     args.state.dungeon_entrance_x = staircase_x
     args.state.dungeon_entrance_y = staircase_y
     args.state.dungeon = dungeon

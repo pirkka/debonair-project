@@ -2,7 +2,7 @@ class SoundFX
 
   @@fx_volume = 0.05
 
-  def self.play_sound(args, kind)
+  def self.play_sound(kind, args)
     case kind
     when :walk
       variation = Numeric.rand(1..6)

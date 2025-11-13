@@ -2,7 +2,7 @@ class NPC < Entity
 
   include Needy
 
-  attr_accessor :char, :species, :has_been_seen, :level, :status, :behaviours
+  attr_accessor :char, :species, :has_been_seen, :level, :status, :behaviours, :carried_items
 
   def initialize(species, x = 0, y = 0, level_depth = 0)
     @kind = :npc

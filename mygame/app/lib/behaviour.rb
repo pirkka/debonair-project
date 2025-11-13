@@ -56,7 +56,7 @@ class Behaviour
   end
 
   def execute args
-    printf "Executing behaviour #{@kind} for NPC #{@npc.species} at (#{@npc.x}, #{@npc.y})\n"
+    #printf "Executing behaviour #{@kind} for NPC #{@npc.species} at (#{@npc.x}, #{@npc.y})\n"
     method_name = @kind.to_s
     if self.respond_to?(method_name)
       self.send(method_name, args)
@@ -64,7 +64,7 @@ class Behaviour
   end
 
   def wander args
-    printf "NPC #{@npc.species} is wandering.\n"
+    #printf "NPC #{@npc.species} is wandering.\n"
     npc = @npc
     # choose a random location on the map to walk to, stored in @destination
     if npc.x == @destination&.first && npc.y == @destination&.last

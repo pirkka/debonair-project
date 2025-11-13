@@ -118,7 +118,6 @@ class Species
       :right_thigh,
       :left_calf,
       :right_calf,
-      :calf_right,
       :left_shoulder,
       :right_shoulder,
       :nose,

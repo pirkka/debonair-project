@@ -31,7 +31,7 @@ class GUI
     cutoff = 50
     @@staircase_animation_frame ||= 0
     if @@staircase_animation_frame == 0
-      SoundFX.play_sound(args, :staircase)
+      SoundFX.play_sound(:staircase, args)
     end
     @@staircase_animation_frame += 1
     if @@staircase_animation_frame < cutoff
@@ -95,7 +95,7 @@ class GUI
             items_on_tile = level.items.select { |item| item.x == hero.x && item.y == hero.y }
             items_on_tile.each do |item|
               hero.pick_up_item(item, level)
-              SoundFX.play_sound(args, :pick_up)
+              SoundFX.play_sound(:pick_up, args)
             end
           end
         end
@@ -176,7 +176,14 @@ class GUI
     return unless level
     level.entities.each do |entity|
       unless entity == args.state.hero
-        visible = Tile.is_tile_visible?(entity.x, entity.y, args)
+        visible = Tile.is_tile_visible?(entity.x, entity.y, args) && !entity.invisible?
+        if args.state.hero.telepathy_range > 0
+          dist_x = (entity.x - args.state.hero.x).abs
+          dist_y = (entity.y - args.state.hero.y).abs
+          # pythagorean distance
+          dist = Math.sqrt(dist_x**2 + dist_y**2)
+          visible = true if dist <= args.state.hero.telepathy_range
+        end
         if visible
           entity.has_been_seen = true
         end
@@ -191,6 +198,10 @@ class GUI
       y_offset = $pan_y + (720 - (level_height * tile_size)) / 2
       x = entity.visual_x
       y = entity.visual_y
+      alpha = 255
+      if entity.invisible?
+        alpha = 100
+      end
       args.outputs.sprites << {
         x: x_offset + x * tile_size,
         y: y_offset + y * tile_size,
@@ -204,7 +215,7 @@ class GUI
         r: entity.color[0],
         g: entity.color[1],
         b: entity.color[2],
-        a: 255
+        a: alpha
       }
     end
   end
@@ -227,17 +238,24 @@ class GUI
     end
     # boundary checks
     if hero.x + dx < 0 || hero.y + dy < 0
+      @@auto_move = nil
       return false
     end
     if hero.x + dx >= args.state.dungeon.levels[hero.level].tiles[0].size ||
        hero.y + dy >= args.state.dungeon.levels[hero.level].tiles.size
+      @@auto_move = nil
       return false
     end
     target_tile = args.state.dungeon.levels[hero.level].tiles[hero.y + dy][hero.x + dx]
     unless Tile.is_walkable?(target_tile, args)
+      @@auto_move = nil
       return false
     end
     if Tile.occupied?(hero.x + dx, hero.y + dy, args)
+      if @@auto_move
+        @@auto_move = nil # stop auto moving if blocked
+        return false
+      end
       GUI.lock_hero
       npc = args.state.dungeon.levels[hero.level].entity_at(hero.x + dx, hero.y + dy)
       npc.enemies << hero unless npc.enemies.include?(hero)
@@ -305,7 +323,7 @@ class GUI
     else
       @@input_cooldown = 8 # frames
     end    
-    SoundFX.play_sound($gtk.args, :walk)
+    SoundFX.play_sound(:walk, $gtk.args)
   end
 
   def self.unlock_hero(args)
