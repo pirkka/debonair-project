@@ -46,11 +46,13 @@ def boot args
 end
 
 def reset args
+  printf "Resetting game state...\n"
   args.state.dungeon = nil
   args.state.hero = nil
   args.state.current_level = nil
   args.state.kronos = nil
   args.state.scene = :title_screen
+  Tile.reset_memory_and_visibility
 end
 
 def tick args

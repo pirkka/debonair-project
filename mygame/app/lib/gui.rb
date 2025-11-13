@@ -200,7 +200,7 @@ class GUI
       y = entity.visual_y
       alpha = 255
       if entity.invisible?
-        alpha = 100
+        alpha = 77
       end
       args.outputs.sprites << {
         x: x_offset + x * tile_size,

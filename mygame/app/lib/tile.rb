@@ -4,6 +4,11 @@ class Tile
   @@tile_memory_per_level = []
   @@tile_visibility_per_level = []
 
+  def self.reset_memory_and_visibility
+    @@tile_memory_per_level = []
+    @@tile_visibility_per_level = []
+  end
+
   def self.tile_types
     [:floor, :rock, :wall, :water, :staircase_up, :staircase_down, :chasm]
   end

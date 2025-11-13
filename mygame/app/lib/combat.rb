@@ -25,11 +25,14 @@ class Combat
       SoundFX.play_sound(:miss, args)
       return # miss
     end
-    dodge_roll = args.state.rng.d20
-    if dodge_roll > attack_roll
-      HUD.output_message args, "#{aname} attacks #{dname} but #{dname} dodges."
-      SoundFX.play_sound(:miss, args)
-      return # dodged
+    # defender attempts to dodge
+    if !attacker.invisible?
+      dodge_roll = args.state.rng.d20
+      if dodge_roll > attack_roll
+        HUD.output_message args, "#{aname} attacks #{dname} but #{dname} dodges."
+        SoundFX.play_sound(:miss, args)
+        return # dodged
+      end
     end
     # hit!
     hit_location = defender.random_body_part(args)

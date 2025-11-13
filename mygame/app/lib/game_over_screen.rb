@@ -18,6 +18,7 @@ class GameOverScreen
     args.outputs.labels << { x: 640, y: 280, text: "press space to continue", size_enum: 3, alignment_enum: 1, r: 250, g: 250, b: 250 }
     if args.inputs.keyboard.key_down.space
       args.gtk.reset
+      reset args
       args.state.scene = :title_screen
     end
   end

@@ -60,6 +60,8 @@ class Trauma
     end
     if death_score >= death_threshold
       return true
+    else
+      return false
     end
   end
 

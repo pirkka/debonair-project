@@ -79,16 +79,16 @@ class Behaviour
     case Numeric.rand(3).to_i
     when 1
       # move northsouth
-      print "NPC #{@npc.species} at (#{npc.x}, #{npc.y}) moving towards #{@destination}\n"
+      #print "NPC #{@npc.species} at (#{npc.x}, #{npc.y}) moving towards #{@destination}\n"
       delta = @destination.last > npc.y ? 1 : -1
       target_coordinates = [npc.x, npc.y + delta]
     when 2
       # move eastwest
-      print "NPC #{@npc.species} at (#{npc.x}, #{npc.y}) moving towards #{@destination}\n"
+      #print "NPC #{@npc.species} at (#{npc.x}, #{npc.y}) moving towards #{@destination}\n"
       delta = @destination.first > npc.x ? 1 : -1
       target_coordinates = [npc.x + delta, npc.y]
     else
-      printf "NPC #{@npc.species} at (#{npc.x}, #{npc.y}) idling.\n"
+      #printf "NPC #{@npc.species} at (#{npc.x}, #{npc.y}) idling.\n"
       # do nothing
     end
     if target_coordinates
