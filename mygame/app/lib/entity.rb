@@ -6,6 +6,8 @@ class Entity
   attr_accessor :enemies
   attr_accessor :allies
   attr_accessor :needs
+  attr_accessor :carried_items, :worn_items
+  attr_accessor :behaviours
 
   def self.kinds
     [:generic, :item, :pc, :npc, :plant, :furniture]
@@ -23,6 +25,9 @@ class Entity
     @needs = []
     @perished = false
     @reason_of_death = nil
+    @carried_items = []
+    @worn_items = []
+    @behaviours = []
   end
   
   def color
@@ -84,5 +89,14 @@ class Entity
       return false
     end
     return Utils.line_of_sight?(self.x, self.y, other_entity.x, other_entity.y, args.state.dungeon.levels[self.level])
+  end
+
+  def use_item(item, args)
+    # check that entity has item
+    unless self.carried_items && self.carried_items.include?(item)
+      printf "ERROR: #{self.name} tries to use a #{item.kind.to_s.gsub('_',' ')} but doesn't have it."
+      return
+    end
+    item.use(self, args)
   end
 end

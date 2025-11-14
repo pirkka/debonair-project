@@ -1,12 +1,9 @@
 TODO LIST
 ---------
 
-- show wounds
+- center coordinate system to dungeon entrance
+- music tracker at 80 bpm
 - wield items
 - wield armor
-- wield rings
 - drop stuff
-- inventory 
-- npc behaviours
-- needs
 - lichen

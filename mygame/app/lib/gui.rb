@@ -9,6 +9,7 @@ class GUI
     @@standing_still_frames = 0
     @@tiles_observed = false
     @@color_flash = nil
+    @@menu_cooldown = 0
   end
 
   def self.standing_still_frames
@@ -428,6 +429,10 @@ class GUI
 
   def self.handle_inventory_input args
     hero = args.state.hero
+    @@menu_cooldown ||= 0
+    if @@menu_cooldown > 0
+      @@menu_cooldown -= 1
+    end
     return unless hero
     if args.inputs.controller_one.key_held.r2
       args.state.selected_item_index ||= 0
@@ -436,14 +441,20 @@ class GUI
     end 
     if args.state.selected_item_index
       if args.inputs.up
-        args.state.selected_item_index -= 1
-        if args.state.selected_item_index < 0
-          args.state.selected_item_index = 0
+        if @@menu_cooldown <= 0
+          args.state.selected_item_index -= 1
+          if args.state.selected_item_index < 0
+            args.state.selected_item_index = 0
+          end
+          @@menu_cooldown = 5
         end
       elsif args.inputs.down
-        args.state.selected_item_index += 1
-        if args.state.selected_item_index >= hero.carried_items.size
-          args.state.selected_item_index = hero.carried_items.size - 1
+        if @@menu_cooldown <= 0
+          args.state.selected_item_index += 1
+          if args.state.selected_item_index >= hero.carried_items.size
+            args.state.selected_item_index = hero.carried_items.size - 1
+          end
+          @@menu_cooldown = 5
         end
       elsif args.inputs.controller_one.key_down.a || args.inputs.keyboard.key_down.space
         # use selected item

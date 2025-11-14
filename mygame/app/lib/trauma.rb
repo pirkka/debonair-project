@@ -14,7 +14,7 @@ class Trauma
   end
 
   def self.severities
-    [:minor, :moderate, :severe, :critical]
+    [:healed, :minor, :moderate, :severe, :critical]
   end
 
   def self.treatments
@@ -27,6 +27,36 @@ class Trauma
       mental: [:concussion, :stress],
       emotional: [:grief, :anxiety, :fear, :depression]
     }
+  end
+
+  def heal_one_step
+    case @severity
+    when :critical
+      @severity = :severe
+    when :severe
+      @severity = :moderate
+    when :moderate
+      @severity = :minor
+    when :minor
+      @severity = :healed
+    end
+  end
+
+  def numeric_severity
+    case @severity
+    when :healed
+      return 0
+    when :minor
+      return 1
+    when :moderate
+      return 2
+    when :severe
+      return 4
+    when :critical
+      return 8
+    else
+      return 0
+    end
   end
 
   def self.inflict(entity, hit_location, kind, severity, args)

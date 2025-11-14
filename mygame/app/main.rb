@@ -40,6 +40,7 @@ require 'app/lib/species'
 require 'app/lib/trauma'
 require 'app/lib/run'
 require 'app/lib/behaviour'
+require 'app/lib/potion'
 
 def boot args
   args.state = {}

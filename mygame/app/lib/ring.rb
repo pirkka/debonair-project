@@ -38,4 +38,16 @@ class Ring < Item
       :turquoise
     ]
   end
+
+  def use(entity, args)
+    # TODO: check that we have enough fingers free to wear the ring
+    # TODO: maybe have a dexterity penalty if too many rings are being worn!!!
+    if entity.worn_items.include?(self)
+      HUD.output_message(args, "You remove the #{self.kind.to_s.gsub('_',' ')}.")
+      entity.worn_items.delete(self)
+    else
+      entity.worn_items << self
+      HUD.output_message(args, "You wear the #{self.kind.to_s.gsub('_',' ')}.")
+    end
+  end
 end
