@@ -1,6 +1,6 @@
 class Item
   attr_accessor :kind, :category, :cursed, :identified, :level, :x, :y
-  attr_reader :attributes
+  attr_reader :attributes, :weight
   def initialize(kind, category, identified = false)
     @kind = kind
     @category = category
@@ -10,10 +10,40 @@ class Item
     @x = nil
     @y = nil
     @attributes = []
+    set_weight
   end
 
   def self.categories
     return [:food, :weapon, :potion, :armor, :scroll, :wand, :ring, :scroll, :amulet, :gloves, :footwear, :helmet]
+  end
+
+  def set_weight # grams
+    case @category
+    when :food
+      @weight = 0.4 
+    when :weapon
+      @weight = 1.0
+    when :potion
+      @weight = 0.2
+    when :armor
+      @weight = 4.0
+    when :scroll
+      @weight = 0.2
+    when :wand
+      @weight = 0.1
+    when :ring
+      @weight = 0.02
+    when :amulet
+      @weight = 0.2
+    when :gloves
+      @weight = 0.4
+    when :footwear
+      @weight = 0.4
+    when :helmet
+      @weight = 0.3
+    else
+      @weight = 0.4
+    end
   end
 
   def add_attribute(attribute)

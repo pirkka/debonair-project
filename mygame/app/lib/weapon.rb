@@ -31,6 +31,27 @@ class Weapon < Item
     ]
   end
 
+  def set_weight
+    case @kind
+    when :dagger
+      @weight = 0.4
+    when :sword
+      @weight = 1.5
+    when :axe
+      @weight = 2.0
+    when :mace
+      @weight = 2.5
+    when :spear
+      @weight = 1.8
+    when :katana
+      @weight = 1.3
+    when :club
+      @weight = 2.2
+    else
+      @weight = 0.6
+    end 
+  end
+
   def self.randomize(level, args)
     weapon = Weapon.new(Weapon.kinds.sample)
     weapon.level = level
