@@ -114,7 +114,7 @@ class HUD
     args.outputs.labels << {
       x: 10,
       y: 40,
-      text: "seed: #{seed} time: #{args.state.kronos.world_time.to_i}",
+      text: "level: #{args.state.hero.level+1} time: #{args.state.kronos.world_time.to_i} seed: #{seed} ",
       size_enum: 0,
       r: 255,
       g: 255,
@@ -146,45 +146,45 @@ class HUD
     end
   end
 
-    def self.debug_info args  
-      hero = args.state.hero
-      time_now = Time.now.to_f
-      last_tick_time = args.state.last_tick_time
-      delta_time = last_tick_time ? time_now - last_tick_time : 0
-      args.state.last_tick_time = time_now
-      millisecs = (delta_time * 1000).to_i
-      if $debug
-        args.outputs.labels << {
-          x: 10,
-          y: 130,
-          text: "ticks: #{$args.state.tick_count} framerate: #{args.gtk.current_framerate} delta: #{millisecs} input_f #{$input_frames} standing_f: #{GUI.standing_still_frames}, moving_f: #{GUI.moving_frames}, input_cooldown: #{GUI.input_cooldown}, hero_locked: #{GUI.hero_locked}",
-          size_enum: 0,
+  def self.debug_info args  
+    hero = args.state.hero
+    time_now = Time.now.to_f
+    last_tick_time = args.state.last_tick_time
+    delta_time = last_tick_time ? time_now - last_tick_time : 0
+    args.state.last_tick_time = time_now
+    millisecs = (delta_time * 1000).to_i
+    if $debug
+      args.outputs.labels << {
+        x: 10,
+        y: 130,
+        text: "ticks: #{$args.state.tick_count} framerate: #{args.gtk.current_framerate} delta: #{millisecs} input_f #{$input_frames} standing_f: #{GUI.standing_still_frames}, moving_f: #{GUI.moving_frames}, input_cooldown: #{GUI.input_cooldown}, hero_locked: #{GUI.hero_locked}",
+        size_enum: 0,
 
-          r: 255,
-          g: 255,
-          b: 255,
-          a: 255
-        }
-        args.outputs.labels << {
-          x: 10,
-          y: 100,
-          text: "pos [#{hero.x}, #{hero.y}] level #{hero.level} tiletype: #{args.state.dungeon.levels[hero.level].tiles[hero.y][hero.x]} auto_move: #{GUI.auto_move}",
-          size_enum: 0,
+        r: 255,
+        g: 255,
+        b: 255,
+        a: 255
+      }
+      args.outputs.labels << {
+        x: 10,
+        y: 100,
+        text: "pos [#{hero.x}, #{hero.y}] level #{hero.level} tiletype: #{args.state.dungeon.levels[hero.level].tiles[hero.y][hero.x]} auto_move: #{GUI.auto_move}",
+        size_enum: 0,
 
-          r: 255,
-          g: 255,
-          b: 255,
-          a: 255
-        }
-      end
+        r: 255,
+        g: 255,
+        b: 255,
+        a: 255
+      }
     end
+  end
 
-    def self.output_message args, message
-      args.state.hud_messages ||= []
-      args.state.hud_messages << { text: message, time: args.state.kronos.world_time }
-      # keep only last 5 messages
-      if args.state.hud_messages.size > 5
-        args.state.hud_messages.shift 
-      end
-    end 
+  def self.output_message args, message
+    args.state.hud_messages ||= []
+    args.state.hud_messages << { text: message, time: args.state.kronos.world_time }
+    # keep only last 5 messages
+    if args.state.hud_messages.size > 5
+      args.state.hud_messages.shift 
+    end
+  end 
 end

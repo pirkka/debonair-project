@@ -34,13 +34,17 @@ class Kronos
 
   def advance_time args
     # every entity needs to be busy most of the time. even idling.
-    all_entities = []
-    for level in args.state.dungeon.levels
-      all_entities += level.entities
-    end
+    # due to performance reasons, we only advance time on the current level
+    # and assume other levels are frozen.
+    # this is classic retro gameplay, it's ok. 
+    # we might change it so that offscreen levels also advance time slowly later.
+    # or at least the levels +-1 from the current level are active
+    relevant_entities = []
+    relevant_entities += args.state.dungeon.levels[args.state.hero.level].entities
+
     min_busy_until = nil
     idle_entity = nil
-    all_entities.each do |entity|
+    relevant_entities.each do |entity|
       min_busy_until ||= entity.busy_until || 0
       this_busy_until = entity.busy_until || 0
       if this_busy_until <= min_busy_until 

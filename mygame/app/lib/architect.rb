@@ -6,9 +6,9 @@ class Architect
 
   def setup(settings)
     @settings ||= {}
-    @settings[:levels] ||= 3
-    @settings[:level_width] ||= 80   
-    @settings[:level_height] ||= 40
+    @settings[:levels] ||= 20
+    @settings[:level_width] ||= 20   
+    @settings[:level_height] ||= 100
   end
 
   def self.create_seed(args)

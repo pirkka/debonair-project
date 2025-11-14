@@ -1,9 +1,10 @@
 TODO LIST
 ---------
-
-- center coordinate system to dungeon entrance
+- perfromance optimization (bigger levels)
 - music tracker at 80 bpm
+- lighting (torches, wall mount torches and other lit things)
 - wield items
 - wield armor
 - drop stuff
 - lichen
+- bigger level area, more levels

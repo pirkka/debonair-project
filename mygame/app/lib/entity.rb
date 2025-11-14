@@ -68,8 +68,8 @@ class Entity
 
   def invisible?
     invisibility = false
-    if self.carried_items
-      self.carried_items.each do |item|
+    if self.worn_items
+      self.worn_items.each do |item|
         if item.kind == :cloak_of_invisibility || item.kind == :ring_of_invisibility
           invisibility = true
         end
