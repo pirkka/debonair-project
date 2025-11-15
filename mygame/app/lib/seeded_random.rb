@@ -42,7 +42,7 @@ class SeededRandom
   end
   
   def choice(array)
-    array[next_int(0, array.length - 1)]
+    array[nxt_int(0, array.length - 1)]
   end
   
   def shuffle(array)

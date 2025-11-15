@@ -108,7 +108,7 @@ class Item
           item.y = room.center_y
           level.items << item
         when 2
-          item = Potion.new(:potion_of_healing)
+          item = Potion.randomize(level.depth, args)
           item.level = level.depth
           item.x = room.center_x
           item.y = room.center_y
@@ -126,10 +126,64 @@ class Item
           level.items << item
         when 5
           item = Scroll.new
+          item.level = level.depth
           item.x = room.center_x
           item.y = room.center_y
           level.items << item
       end
+    end
+  end
+
+  # weight in kilograms
+  def self.carried_weight(entity)
+    total_weight = 0.0
+    if entity.carried_items
+      entity.carried_items.each do |item|
+        total_weight += item.weight
+      end
+    end
+    return total_weight
+  end
+
+  # base carrying capacity - how many kilograms can be carried without encumbrance
+  # hauling capacity - maximum load that can be carried, only few squares at a time
+  def self.base_carrying_capacity(entity)
+    base_capacity = 10.0                          
+    case entity.species 
+    when :dwarf
+      base_capacity += 20.0
+    when :troll
+      base_capacity += 40.0
+    when :gnome
+      base_capacity -= 5.0
+    when :halfling, :goblin, :duck
+      base_capacity -= 3.0
+    when :dark_elf, :elf
+      base_capacity -= 1.0
+    end
+    return base_capacity
+  end
+
+  def self.maximum_carrying_capacity(entity)
+    return Item.base_carrying_capacity(entity) * 5.0
+  end
+
+  def self.encumbrance_factor(entity, args)
+    carrying_capacity = Item.base_carrying_capacity(entity)
+    total_weight = Item.carried_weight(entity)
+    if total_weight <= carrying_capacity
+      return 1.0
+    elsif total_weight <= carrying_capacity * 1.5
+      return 1.2 # light encumbrance
+    elsif total_weight <= carrying_capacity * 2.0
+      return 2.0  # medium encumbrance
+    elsif total_weight <= carrying_capacity * 3.0
+      return 6.0 # heavy encumbrance
+    elsif total_weight <= carrying_capacity * 4.0
+      return 8.0 # heavy encumbrance
+    elsif total_weight <= Item.maximum_carrying_capacity(entity)  
+      # heavy encumbrance
+      return 12.0
     end
   end
 end

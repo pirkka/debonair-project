@@ -6,9 +6,9 @@ class Architect
 
   def setup(settings)
     @settings ||= {}
-    @settings[:levels] ||= 20
+    @settings[:levels] ||= 10
     @settings[:level_width] ||= 30   
-    @settings[:level_height] ||= 30
+    @settings[:level_height] ||= 10
   end
 
   def self.create_seed(args)
@@ -93,8 +93,8 @@ class Architect
         safety = 0
         while level.tiles[staircase_y][staircase_x] != :floor do
           safety += 1
-          if safety > 10
-            printf "Could not place staircase down after 10 tries, placing in center of exit room\n"
+          if safety > 50
+            printf "Could not place staircase down after 50 tries, placing in center of exit room\n"
             staircase_x = exit_room.x + (exit_room.w / 2).to_i
             staircase_y = exit_room.y + (exit_room.h / 2).to_i
             break

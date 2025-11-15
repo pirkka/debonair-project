@@ -1,9 +1,9 @@
 class HUD
 
   def self.draw args
-    self.draw_items args
-    self.draw_health args
     self.draw_hero_info args
+    self.draw_health args
+    self.draw_items args
     self.draw_seed args
     self.draw_messages args
     self.debug_info args if $debug
@@ -27,9 +27,9 @@ class HUD
     traumas.each_with_index do |trauma, index|
       args.outputs.labels << {
         x: 960,
-        y: 620 - index * 13,
+        y: 620 - index * 16,
         text: "#{trauma.severity} #{trauma.kind.to_s.gsub('_',' ')} on #{trauma.body_part.to_s.gsub('_',' ')}",
-        size_enum: -3,
+        size_enum: 0,
         r: 255,
         g: 0,
         b: 0,
@@ -42,10 +42,11 @@ class HUD
   def self.draw_items args
     hero = args.state.hero
     return unless hero && hero.carried_items.any?
+    title = "Items Carried (#{Item.carried_weight(hero).round(2)} kg)"
     args.outputs.labels << {
       x: 960,
       y: 422,
-      text: "Items Carried",
+      text: title,
       size_enum: 1,
       r: 255,
       g: 255,
@@ -125,29 +126,54 @@ class HUD
   end
 
   def self.draw_hero_info args
-      hero = args.state.hero
-      args.outputs.labels << {
-        x: 960,
-        y: 700,
-        text: "#{hero.name}",
-        size_enum: 2,
-        r: 255,
-        g: 255,
-        b: 255,
-        a: 255,
-        font: "fonts/olivetti.ttf"
-      }
-      args.outputs.labels << {
-        x: 960,
-        y: 670,
-        text: "#{hero.age.to_s.gsub('adult','')} #{hero.trait.to_s.gsub('none','')} #{hero.species} #{hero.role}".gsub('  ',' ').gsub('_','').trim,
-        size_enum: -2,
-        r: 255,
-        g: 255,
-        b: 255,
-        a: 255,
-        font: "fonts/olivetti.ttf"
-      }  end
+    hero = args.state.hero
+    args.outputs.labels << {
+      x: 960,
+      y: 700,
+      text: "#{hero.name}",
+      size_enum: 2,
+      r: 255,
+      g: 255,
+      b: 255,
+      a: 255,
+      font: "fonts/olivetti.ttf"
+    }
+    args.outputs.labels << {
+      x: 960,
+      y: 670,
+      text: "#{hero.age.to_s.gsub('adult','')} #{hero.trait.to_s.gsub('none','')} #{hero.species} #{hero.role}".gsub('  ',' ').gsub('_','').trim,
+      size_enum: -2,
+      r: 255,
+      g: 255,
+      b: 255,
+      a: 255,
+      font: "fonts/olivetti.ttf"
+    }   
+    # exhaustion bar
+    exhaust_bar_width = 270
+    exhaust_bar_height = 3
+    args.outputs.solids << {
+      x: 960,
+      y: 643,
+      w: exhaust_bar_width,
+      h: exhaust_bar_height,
+      r: 0,
+      g: 0,
+      b: 0,
+      a: 255
+    }
+    exhaustion_width = (hero.exhaustion * exhaust_bar_width).to_i
+    args.outputs.solids << {
+      x: 960,
+      y: 643,
+      w: exhaustion_width,
+      h: exhaust_bar_height,
+      r: 255,       
+      g: 220,
+      b: 100,
+      a: 255
+    }
+  end
 
   def self.draw_seed args
     seed = args.state.seed || "unknown"

@@ -10,11 +10,11 @@ class Potion < Item
     :potion_of_strength,
     :potion_of_speed,
     :potion_of_invisibility,
-    :potion_of_fire_resistance,
-    :potion_of_cold_resistance,
+    # :potion_of_fire_resistance,
+    # :potion_of_cold_resistance,
     :potion_of_poison,
-    :potion_of_water_breathing,
-    :potion_of_levitation,
+    # :potion_of_water_breathing,
+    # :potion_of_levitation,
     :potion_of_telepathy,
     :potion_of_extra_healing,
     :potion_of_teleportation
@@ -38,8 +38,16 @@ class Potion < Item
     ]
   end
 
+  def self.randomize(level_depth, args)
+    kind = args.state.rng.choice(self.kinds)
+    return Potion.new(kind)
+  end
+
   def use(entity, args)
     case self.kind
+    when :potion_of_teleportation
+      HUD.output_message(args, "You feel disoriented...")
+      entity.teleport(args)
     when :potion_of_healing
       effect = 0
       Trauma.active_traumas(entity).each do |trauma|

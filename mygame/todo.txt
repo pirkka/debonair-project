@@ -1,10 +1,13 @@
 TODO LIST
----------
-- pickaxe cheat / mining bombs / hold down y to dig
+- cheat codes for mapping and going through walls
 - fix levels that do not have exit
+- detective should detect secret doors automagically
+- architect secret doors
+- stealth/hearing mechanics
+- tending to wounds
 - different weapons make different damage
+- pickaxe cheat / mining bombs / hold down y to dig
 - body parts have a tree
-- carried weight, endurance, resting, tending to wounds
 - refactor: use "depth" everywhere as the level index
 - armor
 - perfromance optimization (bigger levels)
@@ -15,4 +18,8 @@ TODO LIST
 
 
 DONE LIST
+- resting
+- carried weight, endurance
 - left trigger - look mode that cycles through items and creatures in sight
+- scroll of mapping
+- enable single rest move by cooldown on rest button

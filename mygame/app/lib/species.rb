@@ -13,7 +13,6 @@ class Species
       :elf,
       :dwarf,
       :orc,
-      :gnome,
       :halfling,
       :dark_elf,
       :goblin,

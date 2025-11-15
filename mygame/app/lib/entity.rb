@@ -9,6 +9,7 @@ class Entity
   attr_accessor :carried_items, :worn_items, :wielded_items
   attr_accessor :behaviours
   attr_accessor :statuses
+  attr_accessor :traits
 
   def self.kinds
     [:generic, :item, :pc, :npc, :plant, :furniture]
@@ -31,6 +32,7 @@ class Entity
     @behaviours = []
     @wielded_items = []
     @statuses = []
+    @traits = []
   end
 
   def add_status(status)
@@ -70,6 +72,12 @@ class Entity
     case @species
     when :grid_bug
       range += 5
+    end
+    self.traits.each do |trait|
+      case trait
+      when :alien
+        range += 5 # aliens have a mild telepathy built in
+      end
     end
     if self.worn_items
       self.worn_items.each do |item|
@@ -136,5 +144,33 @@ class Entity
     printf "Dropped item: %s\n" % item.kind.to_s
     SoundFX.play_sound(:drop_item, args)
     HUD.output_message(args, "#{self.name} dropped #{item.kind.to_s.gsub('_',' ')}.")
+  end
+
+  def teleport(args, x=nil, y=nil)
+    level = args.state.dungeon.levels[self.level]
+    if x.nil? || y.nil?
+      # random teleport
+      max_attempts = 100
+      attempts = 0
+      begin
+        x = args.state.rng.rand(0...level.width)
+        y = args.state.rng.rand(0...level.height)
+        attempts += 1
+      end while !level.is_walkable?(x,y) && attempts < max_attempts
+      if attempts >= max_attempts
+        HUD.output_message(args, "#{self.name} tries to teleport but fails!")
+        return
+      end
+    end
+    if level.is_walkable?(x,y)
+      self.x = x
+      self.y = y
+      self.visual_x = x
+      self.visual_y = y
+      HUD.output_message(args, "#{self.name} teleports to (#{x}, #{y}).")
+      SoundFX.play_sound(:teleport, args)
+    else
+      HUD.output_message(args, "#{self.name} tries to teleport to (#{x}, #{y}) but fails!")
+    end
   end
 end

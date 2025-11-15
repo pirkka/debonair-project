@@ -128,7 +128,7 @@ class GUI
         printf "Look mode marker at #{thing.x*tile_size},#{thing.y*tile_size} x_offset: #{x_offset}, y_offset: #{y_offset}\n"
         args.outputs.sprites << {
           x: x_offset + thing.x * tile_size,
-          y: y_offset + thing.y * (tile_size+1),
+          y: y_offset + thing.y * (tile_size+1.5),
           w: tile_size,
           h: tile_size,
           r: 255,
@@ -141,6 +141,22 @@ class GUI
           tile_y: 1*16,
           tile_w: 16,
           tile_h: 16,
+        }
+        # also label it
+        # calculate screen position
+        screen_x = x_offset + (thing.x + 0.5)* tile_size
+        screen_y = y_offset + (thing.y + 3) * tile_size
+        args.outputs.labels << {
+          x: screen_x,
+          y: screen_y,
+          text: thing.title,
+          size_enum: 0,
+          alignment_enum: 1,
+          r: 255,
+          g: 255,
+          b: 255,
+          a: 255,
+          font: "fonts/olivetti.ttf"
         }
       end
     end
@@ -231,9 +247,10 @@ class GUI
               end
             end
           end
-          if args.inputs.keyboard.key_held.space || args.inputs.controller_one.key_held.a
+          if args.inputs.keyboard.key_down.space || args.inputs.controller_one.key_down.a
             # rest
             args.state.hero.rest(args)
+            @@input_cooldown = 8
             SoundFX.play_sound(:rest, args)
           end
         end
@@ -378,6 +395,11 @@ class GUI
       args.state.kronos.spend_time(hero, hero.walking_speed * 4, args)
       return true
     end
+    if hero.exhaustion >= 1.0
+      HUD.output_message args, "You are too exhausted to move!"
+      hero.rest(args)
+      return true
+    end
     if args.inputs.keyboard.key_held.alt || args.inputs.controller_one.key_held.r1
       @@auto_move = [dx, dy] # move until blocked
     end
@@ -418,7 +440,8 @@ class GUI
     GUI.lock_hero
     hero.x += dx # logical position is updated first, visual changes later
     hero.y += dy
-    args.state.kronos.spend_time(hero, hero.walking_speed, args) 
+    args.state.kronos.spend_time(hero, hero.walking_speed, args)
+    hero.apply_walking_exhaustion(args)
     return true
   end
 

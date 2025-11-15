@@ -126,6 +126,7 @@ class Hero < Entity
 
   def rest(args)
     args.state.kronos.spend_time(self, 1.0, args)
+    apply_exhaustion(-0.05, args)
   end
 
   def stealth_range
@@ -161,6 +162,21 @@ class Hero < Entity
       return true if item.kind == item_kind
     end
     return false
+  end
+
+  def apply_exhaustion (amount, args)
+    @exhaustion += amount
+    @exhaustion = 0.0 if @exhaustion < 0.0
+    @exhaustion = 1.0 if @exhaustion > 1.0
+    if @exhaustion > 0.6
+      HUD.output_message(args, "You feel somewhat exhausted.")
+    end
+    if @exhaustion > 0.8
+      HUD.output_message(args, "You feel proper exhausted.")
+    end
+    if @exhaustion > 0.9
+      HUD.output_message(args, "You feel super exhausted, you really need to rest soon.")
+    end
   end
   
   def apply_hunger args
@@ -199,5 +215,11 @@ class Hero < Entity
         args.state.hero.reason_of_death = "of starvation"
       end
     end      
+  end
+
+  def apply_walking_exhaustion args
+    base_exhaustion_increase = 0.005 # per tile walked
+    exhaustion_increase = base_exhaustion_increase * Item.encumbrance_factor(self, args)
+    apply_exhaustion(exhaustion_increase, args)
   end
 end
