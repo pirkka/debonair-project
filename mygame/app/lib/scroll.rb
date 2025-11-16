@@ -9,7 +9,14 @@ class Scroll < Item
     if user != args.state.hero
       return
     end
-    HUD.output_message args, "You read the scroll. Mystical runes swirl around you!"
-    Tile.auto_map_whole_level args    
+    case @kind
+    when :scroll_of_mapping
+      HUD.output_message args, "You read the scroll. You gain knowledge of the level layout!"
+      Tile.auto_map_whole_level args    
+    else
+      printf "Unknown scroll kind: %s\n" % [@kind.to_s]
+    end
+    args.state.hero.carried_items.delete(self)
+    args.state.kronos.spend_time(args.state.hero, args.state.hero.mental_speed, args)
   end
 end

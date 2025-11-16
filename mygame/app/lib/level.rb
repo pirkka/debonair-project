@@ -1,9 +1,10 @@
 class Level
-  attr_accessor :depth, :tiles, :items
+  attr_accessor :depth, :tiles, :items, :lights
   attr_accessor :floor_hsl # this determines the color scheme of the level
   attr_accessor :vibe # this is a placeholder for different styles of level
   attr_accessor :rooms
   attr_accessor :entities
+  attr_accessor :lighting
 
   def initialize
     @tiles = []
@@ -12,6 +13,8 @@ class Level
     @rooms = []
     @entities = []
     @items = []
+    @lights = []
+    @lighting = [] # lighting value of each tile
   end
 
   def width
@@ -72,8 +75,8 @@ class Level
         printf "Could not create enough rooms after 500 tries, created %d out of %d\n" % [@rooms.size, room_target]
         break
       end
-      width = Numeric.rand(3..7)
-      height = Numeric.rand(3..7)
+      width = Numeric.rand(5..11) # little nod to the classic rogue and wide displays
+      height = Numeric.rand(5..9)
       buffer = 1
       x = rand(@tiles[0].size - width - buffer*2) + buffer
       y = rand(@tiles.size - height - buffer*2) + buffer
@@ -85,7 +88,11 @@ class Level
     @rooms.each do |room|
       for i in room.y...(room.y + room.h)
         for j in room.x...(room.x + room.w)
-          @tiles[i][j] = :floor if @tiles[i][j] == :rock
+          if i == room.y || i == (room.y + room.h - 1) || j == room.x || j == (room.x + room.w - 1)
+            @tiles[i][j] = :wall if @tiles[i][j] == :rock
+          else
+            @tiles[i][j] = :floor if @tiles[i][j] == :rock
+          end
         end
       end
     end
@@ -157,7 +164,7 @@ class Level
     current_x = x1
     current_y = y1
     while current_x != x2 || current_y != y2 do
-      @tiles[current_y][current_x] = :floor if @tiles[current_y][current_x] == :rock
+      @tiles[current_y][current_x] = :floor if @tiles[current_y][current_x] == :rock || @tiles[current_y][current_x] == :wall
       if current_x < x2
         current_x += 1
       elsif current_x > x2
@@ -168,9 +175,7 @@ class Level
         current_y -= 1
       end
     end
-    @tiles[current_y][current_x] = :floor if @tiles[current_y][current_x] == :rock
-    # put door if it's a wall!
-    @tiles[current_y][current_x] = :closed_door if @tiles[current_y][current_x] == :wall
+    @tiles[current_y][current_x] = :floor if @tiles[current_y][current_x] == :rock || @tiles[current_y][current_x] == :wall
   end
 
   def create_corridors(args)
@@ -183,7 +188,7 @@ class Level
     # every corridor leads to a random point in another room
     @rooms.each do |room|
       #printf "Creating corridors for room at (%d,%d) size (%d,%d)\n" % [room.x, room.y, room.w, room.h]
-      corridor_target = 1 || Numeric.rand(1..2)
+      corridor_target = 1 || Numeric.rand(1..2)
       corridors = 0
       while corridors < corridor_target do
         break if corridors > 5 # safety to avoid infinite loops
@@ -207,7 +212,7 @@ class Level
             printf "    Corridor creation aborted due to safety limit.\n"
             break
           end
-          if Numeric.rand < 0.2
+          if Numeric.rand < 0.1
             horizontal_mode = !horizontal_mode
           end
           if horizontal_mode
@@ -227,7 +232,7 @@ class Level
               current_y -= 1
             end
           end
-          @tiles[current_y][current_x] = :floor if @tiles[current_y][current_x] == :rock
+          @tiles[current_y][current_x] = :floor if @tiles[current_y][current_x] == :rock || @tiles[current_y][current_x] == :wall 
         end
         corridors += 1
       end

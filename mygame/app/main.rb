@@ -45,6 +45,7 @@ require 'app/lib/potion'
 require 'app/lib/food'
 require 'app/lib/scroll'
 require 'app/lib/debug'
+require 'app/lib/lighting'
 
 def boot args
   args.state = {}

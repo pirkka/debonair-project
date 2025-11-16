@@ -100,7 +100,7 @@ class Item
 
   def self.populate_level(level, args)
     level.rooms.each do |room|
-      case args.state.rng.d6
+      case args.state.rng.d12
         when 1
           item = Food.new(:food_ration, args)
           item.level = level.depth

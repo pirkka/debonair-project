@@ -116,6 +116,24 @@ class Hero < Entity
     return seconds_per_tile / Trauma.walking_speed_modifier(self) 
   end
 
+  def mental_speed
+    seconds_per_thought = 1.0
+    if @age == :elder
+      seconds_per_thought += 0.5
+    end
+    if @trait == :robot
+      seconds_per_thought -= 0.2
+    end
+    if @trait == :cyborg 
+      seconds_per_thought -= 0.1
+    end
+    if @role == :mage || @role == :detective
+      seconds_per_thought -= 0.3
+    end
+    return seconds_per_thought
+  end
+
+
   def pickup_speed
     seconds_per_pickup = 1.0 # seconds to pick up items
     if @species == :halfling || @species == :gnome

@@ -1,5 +1,13 @@
+NOTES ON GAME SYSTEM
+
+- how long distance is one square?
+- how many seconds is the time unit? (maybe 10?)
+
+
 TODO LIST
-- cheat codes for mapping and going through walls
+- lighting (torches, wall mount torches and other lit things)
+- music tracker at 80 bpm
+- doors
 - fix levels that do not have exit
 - detective should detect secret doors automagically
 - architect secret doors
@@ -8,11 +16,8 @@ TODO LIST
 - different weapons make different damage
 - pickaxe cheat / mining bombs / hold down y to dig
 - body parts have a tree
-- refactor: use "depth" everywhere as the level index
 - armor
 - perfromance optimization (bigger levels)
-- music tracker at 80 bpm
-- lighting (torches, wall mount torches and other lit things)
 - lichen
 - bigger level area, more levels
 
@@ -21,5 +26,8 @@ DONE LIST
 - resting
 - carried weight, endurance
 - left trigger - look mode that cycles through items and creatures in sight
+- refactor: use "depth" everywhere as the level index
 - scroll of mapping
 - enable single rest move by cooldown on rest button
+- cheat codes for mapping and teleporting
+- leave neutral bugs alone! (trading places)

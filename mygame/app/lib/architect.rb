@@ -46,6 +46,7 @@ class Architect
     create_dungeon(args)
     populate_entities(args)
     populate_items(args)
+    Lighting.populate_lights(args)
   end
 
   def create_level(args, depth, vibe)
@@ -86,8 +87,8 @@ class Architect
       # finally place staircase down in a room
       if depth < (@settings[:levels] - 1)
         exit_room = level.rooms.sample
-        staircase_x = Numeric.rand(exit_room.x...(exit_room.x + exit_room.w)).to_i
-        staircase_y = Numeric.rand(exit_room.y...(exit_room.y + exit_room.h)).to_i        
+        staircase_x = Numeric.rand(exit_room.x+1...(exit_room.x + exit_room.w)-1).to_i
+        staircase_y = Numeric.rand(exit_room.y+1...(exit_room.y + exit_room.h)-1).to_i        
         safety = 0
         while level.tiles[staircase_y][staircase_x] != :floor do
           safety += 1
@@ -97,16 +98,16 @@ class Architect
             staircase_y = exit_room.y + (exit_room.h / 2).to_i
             break
           end
-          staircase_x = Numeric.rand(exit_room.x...(exit_room.x + exit_room.w)).to_i
-          staircase_y = Numeric.rand(exit_room.y...(exit_room.y + exit_room.h)).to_i
+          staircase_x = Numeric.rand(exit_room.x+1...(exit_room.x + exit_room.w)-1).to_i
+          staircase_y = Numeric.rand(exit_room.y+1...(exit_room.y + exit_room.h)-1).to_i        
         end
         level.tiles[staircase_y][staircase_x] = :staircase_down
       else
         # last level has no staircase down
         # it has the amulet!!!
         amulet_room = level.rooms.sample
-        amulet_x = Numeric.rand(amulet_room.x...(amulet_room.x + amulet_room.w)).to_i
-        amulet_y = Numeric.rand(amulet_room.y...(amulet_room.y + amulet_room.h)).to_i
+        amulet_x = Numeric.rand(amulet_room.x+1...(amulet_room.x + amulet_room.w)-1).to_i
+        amulet_y = Numeric.rand(amulet_room.y+1...(amulet_room.y + amulet_room.h)-1).to_i
         level.tiles[amulet_y][amulet_x] = :floor
         amulet_item = Item.new(:amulet_of_skandor, :amulet)
         amulet_item.level = depth

@@ -115,22 +115,28 @@ class Tile
         else
           tile = tile_memory[y][x] || :unknown
         end
-        Tile.draw(tile, y, x, tile_size, x_offset, y_offset, hue, tile_visibility[y][x], args)
+        lighting = level.lighting[y][x] 
+        Tile.draw(tile, y, x, tile_size, x_offset, y_offset, hue, tile_visibility[y][x], lighting, args)
       end
     end
   end
 
-  def self.draw(tile, y, x, tile_size, x_offset, y_offset, hue, visible, args)
+  def self.draw(tile, y, x, tile_size, x_offset, y_offset, hue, visible, lighting, args)
     # base color
     saturation_modifier = visible ? 1.0 : 0.7
-    lightness_modifier = visible ? 1.0 : 0.4
+    #lightness_modifier = visible ? 1.0 : 0.4
+    lightness_modifier = 1.0 - (1.0 * (1.0 - lighting.clamp(0.0, 1.0)))
     color = case tile
       when :rock
         Color.hsl_to_rgb(hue, 80 * saturation_modifier, 70 * lightness_modifier)
       when :floor
         Color.hsl_to_rgb(hue, 80 * saturation_modifier, 0 * lightness_modifier)
       when :wall
-        Color.hsl_to_rgb(hue, 50 * saturation_modifier, 80 * lightness_modifier)
+        Color.hsl_to_rgb(hue, 50 * saturation_modifier, 10 * lightness_modifier)
+      when :open_door
+        { r: 150, g: 75, b: 0 }
+      when :closed_door
+        { r: 100, g: 50, b: 0 }
       when :water
         { r: 0, g: 0, b: 255 }
       when :chasm
@@ -161,6 +167,20 @@ class Tile
         h: tile_size,
         angle: angle,
         path: "sprites/tile/gravel.png",
+        r: c[:r],
+        g: c[:g],
+        b: c[:b]
+      }
+    end
+    if tile == :wall
+      # highlight 
+      c = Color.hsl_to_rgb(hue, 50 * saturation_modifier, 40 * lightness_modifier)
+      args.outputs.sprites << {
+        x: x_offset + x * tile_size,
+        y: y_offset + y * tile_size,
+        w: tile_size,
+        h: tile_size,
+        path: "sprites/tile/wall.png",
         r: c[:r],
         g: c[:g],
         b: c[:b]

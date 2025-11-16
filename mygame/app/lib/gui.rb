@@ -378,6 +378,8 @@ class GUI
       if entity.invisible?
         alpha = 77
       end
+      lighting = level.lighting[y][x] # 0.0 to 1.0
+      alpha = (alpha.to_f * lighting.to_f).to_i.clamp(0, 255)
       args.outputs.sprites << {
         x: x_offset + x * tile_size,
         y: y_offset + y * tile_size,
@@ -443,11 +445,27 @@ class GUI
         return false
       end
       GUI.lock_hero
+      # determine if there is combat or not
       npc = args.state.dungeon.levels[hero.depth].entity_at(hero.x + dx, hero.y + dy)
-      npc.enemies << hero unless npc.enemies.include?(hero)
-      Combat.resolve_attack(hero, npc, args)
-      args.state.kronos.spend_time(hero, hero.walking_speed, args) # todo fix speed depending on action
-      return true
+      if hero.is_hostile_to?(npc)
+        Combat.resolve_attack(hero, npc, args)
+        args.state.kronos.spend_time(hero, hero.walking_speed, args) # todo fix speed depending on action
+        return true
+      else
+        if npc.is_hostile_to?(hero)
+          HUD.output_message args, "You bump into the #{npc.title}!"
+        else
+          # swap places
+          HUD.output_message args, "You trade places with the #{npc.title}."
+          npc.x = hero.x
+          npc.y = hero.y
+          hero.x += dx
+          hero.y += dy
+          args.state.kronos.spend_time(hero, hero.walking_speed, args)
+          return true
+        end
+      end
+
     end
     # we are cleared to move
     GUI.lock_hero

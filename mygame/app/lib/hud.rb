@@ -247,7 +247,7 @@ class HUD
       args.outputs.labels << {
         x: 10,
         y: 130,
-        text: "ticks: #{$args.state.tick_count} framerate: #{args.gtk.current_framerate} delta: #{millisecs} input_f #{$input_frames} standing_f: #{GUI.standing_still_frames}, moving_f: #{GUI.moving_frames}, input_cooldown: #{GUI.input_cooldown}, hero_locked: #{GUI.hero_locked}",
+        text: "framerate: #{args.gtk.current_framerate}, input_cooldown: #{GUI.input_cooldown}, hero_locked: #{GUI.hero_locked}",
         size_enum: 0,
 
         r: 255,
@@ -258,9 +258,8 @@ class HUD
       args.outputs.labels << {
         x: 10,
         y: 100,
-        text: "pos [#{hero.x}, #{hero.y}] level #{hero.depth} tiletype: #{args.state.dungeon.levels[hero.depth].tiles[hero.y][hero.x]} auto_move: #{GUI.auto_move}",
+        text: "pos [#{hero.x}, #{hero.y}] level #{hero.depth} tiletype: #{args.state.dungeon.levels[hero.depth].tiles[hero.y][hero.x]} lighting: #{args.state.dungeon.levels[hero.depth].lighting[hero.y][hero.x]} auto_move: #{GUI.auto_move}",
         size_enum: 0,
-
         r: 255,
         g: 255,
         b: 255,

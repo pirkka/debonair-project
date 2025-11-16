@@ -6,7 +6,7 @@ class Ring < Item
   def initialize(kind)
     super(kind, :ring)
     @usage = 0
-    @max_usage = Numeric.rand(0..200)
+    @max_usage = Numeric.rand(0..3000)
   end
 
   def self.kinds
@@ -56,6 +56,15 @@ class Ring < Item
 
   def apply_continuous_effect(entity, args)
     case self.kind
+    when :ring_of_teleportation
+      roll_one = args.state.rng.d20
+      if roll_one == 1
+        roll_two = args.state.rng.d20
+        if roll_two >= 15
+          HUD.output_message(args, "The #{self.kind.to_s.gsub('_',' ')} glows brightly!")
+          entity.teleport(args)
+        end
+      end
     when :ring_of_regeneration
       Trauma.active_traumas(entity).each do |trauma|
         if self.usage % 10 == 0 # heal one step every 10 usage ticks

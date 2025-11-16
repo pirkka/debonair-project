@@ -35,6 +35,18 @@ class Entity
     @traits = []
   end
 
+  def is_hostile_to?(other_entity)
+    return @enemies.include?(other_entity)
+  end
+
+  def become_hostile_to(other_entity)
+    @enemies << other_entity unless @enemies.include?(other_entity)
+  end
+    
+  def is_allied_to?(other_entity)
+    return @allies.include?(other_entity)
+  end
+
   def add_status(status)
     @statuses << status unless @statuses.include?(status)
   end
