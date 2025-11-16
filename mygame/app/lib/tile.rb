@@ -95,7 +95,6 @@ class Tile
         end
       end
     end
-
     @@tile_memory_per_level[args.state.current_depth] = tile_memory
   end
 
@@ -127,9 +126,11 @@ class Tile
 
   def self.draw(tile, y, x, tile_size, x_offset, y_offset, hue, visible, lighting, args)
     # base color
-    saturation_modifier = visible ? 1.0 : 0.6
-    #lightness_modifier = visible ? 1.0 : 0.4
-    lightness_modifier = 1.0 - (1.0 * (1.0 - lighting.clamp(0.0, 1.0)))
+    saturation_modifier = visible ? 1.0 : 0.7
+    lightness_modifier = visible ? 1.0 : 0.4
+    if visible
+      lightness_modifier = 1.0 - (1.0 * (1.0 - lighting.clamp(0.0, 1.0)))
+    end
     color = case tile
       when :rock
         Color.hsl_to_rgb(hue, 80 * saturation_modifier, 70 * lightness_modifier)

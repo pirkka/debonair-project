@@ -11,7 +11,7 @@ class Hero < Entity
     @kind = :pc
     @role = Hero.roles.sample
     @species = Hero.species.sample
-    @trait = Hero.traits.sample
+    @traits = [Hero.traits.sample]
     @age = Hero.age.sample
     @name = 'Jaakko'
     @exhaustion = 0.2 # 0.0 = totally rested, 1.0 = totally exhausted
@@ -77,6 +77,10 @@ class Hero < Entity
       :demon,
       :angel
     ]
+  end
+
+  def trait
+    return @traits[0]
   end
 
   def vision_range
