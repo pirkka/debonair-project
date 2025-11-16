@@ -2,6 +2,7 @@
 
 #$fixed_seed = 'dsfjkldasjf'
 #$debug = true
+$dynamic_light_system = true
 $zoom = 0.7
 $pan_x = 0.0
 $pan_y = 0.0
@@ -99,7 +100,7 @@ def gameplay_tick args
   GUI.handle_input args
   args.state.kronos.advance_time args
   GUI.update_entity_animations args
-  Lighting.calculate_lighting(args.state.dungeon.levels[args.state.current_depth], args)
+  Lighting.calculate_lighting(args.state.dungeon.levels[args.state.current_depth], args) if $dynamic_light_system
   GUI.draw_background args
   GUI.draw_tiles args
   GUI.draw_items args

@@ -80,7 +80,7 @@ class Hero < Entity
   end
 
   def vision_range
-    range = 20
+    range = 112
     if @age == :elder
       range -= 5
     end

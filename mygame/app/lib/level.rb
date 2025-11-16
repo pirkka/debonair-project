@@ -5,6 +5,7 @@ class Level
   attr_accessor :rooms
   attr_accessor :entities
   attr_accessor :lighting
+  attr_accessor :los_cache
 
   def initialize
     @tiles = []
@@ -15,6 +16,7 @@ class Level
     @items = []
     @lights = []
     @lighting = nil # lighting value of each tile
+    @los_cache = {}
   end
 
   def width

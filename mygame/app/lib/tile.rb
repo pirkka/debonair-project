@@ -4,6 +4,7 @@ class Tile
 
   @@tile_memory_per_level = []
   @@tile_visibility_per_level = []
+  @@los_cache_per_level = {}
 
   def self.reset_memory_and_visibility
     @@tile_memory_per_level = []
@@ -70,7 +71,10 @@ class Tile
           tile_visibility[y][x] = false
           next
         end
-        if Utils::line_of_sight?(args.state.hero.x, args.state.hero.y, x, y, level)
+        # cache the los value
+        los_cache_key = "#{args.state.hero.x},#{args.state.hero.y}->#{x},#{y}"
+        level.los_cache[los_cache_key] ||= Utils.line_of_sight?(args.state.hero.x, args.state.hero.y, x, y, level)
+        if level.los_cache[los_cache_key]
           tile_visibility[y][x] = true
         else
           tile_visibility[y][x] = false

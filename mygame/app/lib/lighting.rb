@@ -49,7 +49,10 @@ class Lighting
     end
     for y in 0...level.height
       for x in 0...level.width
-        level.lighting[y][x] = self.calculate_light_level_at(level, x, y)
+        # only if within line of sight
+        if level.los_cache["#{args.state.hero.x},#{args.state.hero.y}->#{x},#{y}"]
+          level.lighting[y][x] = self.calculate_light_level_at(level, x, y)
+        end
       end
     end
   end
