@@ -318,23 +318,24 @@ class GUI
   end
 
   def self.draw_items args
-    level = args.state.dungeon.levels[args.state.current_depth]
+    level = Utils.level(args)
     return unless level
-    tile_size = $tile_size * $zoom
-    dungeon = args.state.dungeon
-    level_height = level.tiles.size
-    level_width = level.tiles[0].size
-    x_offset = $pan_x + (1280 - (level_width * tile_size)) / 2
-    y_offset = $pan_y + (720 - (level_height * tile_size)) / 2
+    tile_size = Utils.tile_size(args)
+    level_height = Utils.level_height(args)
+    level_width = Utils.level_width(args)
+    x_offset = Utils.offset_x(args)
+    y_offset = Utils.offset_y(args)
     level.items.each do |item|
       visible = Tile.is_tile_visible?(item.x, item.y, args)
       next unless visible
+      printf "Drawing item %s at %d,%d\n" % [item.kind.to_s, item.x, item.y]
+      printf "level lighting object: %s\n" % level.lighting.inspect
       lighting = level.lighting[item.y][item.x] # 0.0 to 1.0
       hue = item.color[0]
       saturation = item.color[1]
-      level = item.color[2]
-      level *= lighting
-      color = Color::hsl_to_rgb(hue, saturation, level)
+      brightness = item.color[2]
+      brightness *= lighting
+      color = Color::hsl_to_rgb(hue, saturation, brightness)
       args.outputs.sprites << {
         x: x_offset + item.x * tile_size,
         y: y_offset + item.y * tile_size,
