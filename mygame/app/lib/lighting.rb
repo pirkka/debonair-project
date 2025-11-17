@@ -1,4 +1,11 @@
 class Lighting
+
+  @@lighting_stale = true
+
+  def self.mark_lighting_stale
+    @@lighting_stale = true
+  end
+
   def self.calculate_light_level_at(level, x, y)
     timer = Time.now
     # initilalize light levels at zero
@@ -50,16 +57,19 @@ class Lighting
   end
 
   def self.calculate_lighting(level, args)
-    unless level.lighting
-      level.lighting = Array.new(level.height) { Array.new(level.width, 0.0) }
-    end
-    for y in 0...level.height
-      for x in 0...level.width
-        # only if within line of sight
-        if level.los_cache["#{args.state.hero.x},#{args.state.hero.y}->#{x},#{y}"]
-          level.lighting[y][x] = self.calculate_light_level_at(level, x, y)
+    if @@lighting_stale
+      unless level.lighting
+        level.lighting = Array.new(level.height) { Array.new(level.width, 0.0) }
+      end
+      for y in 0...level.height
+        for x in 0...level.width
+          # only if within line of sight
+          if level.los_cache["#{args.state.hero.x},#{args.state.hero.y}->#{x},#{y}"]
+            level.lighting[y][x] = self.calculate_light_level_at(level, x, y)
+          end
         end
       end
+      @@lighting_stale = false
     end
   end
 end

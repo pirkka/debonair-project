@@ -56,6 +56,7 @@ class GUI
       @@tiles_observed = false
       new_level = args.state.dungeon.levels[args.state.current_depth]
       new_level.entities << args.state.hero
+      Lighting.mark_lighting_stale
     end
     if @@staircase_animation_frame >= duration_in_frames
       args.state.scene = :gameplay
@@ -94,7 +95,7 @@ class GUI
       if @@look_mode_index == nil
         @@look_mode_index = 0
         thing = visible_things[@@look_mode_index]
-        HUD.output_message args, "You see a #{thing.title}."
+        HUD.output_message args, "You see a #{thing.traits.join(', ')} #{thing.title}."
       else
         if args.inputs.up && @@look_mode_cooldown == 0
           @@look_mode_index -= 1
@@ -126,7 +127,7 @@ class GUI
         x_offset = $pan_x + (1280 - (level_width * tile_size)) / 2
         y_offset = $pan_y + (720 - (level_height * tile_size)) / 2
         printf "Look mode marker at #{thing.x*tile_size},#{thing.y*tile_size} x_offset: #{x_offset}, y_offset: #{y_offset}\n"
-        args.outputs.sprites << {
+        args.outputs.primitives << {
           x: x_offset + thing.x * tile_size,
           y: y_offset + thing.y * (tile_size+1.5),
           w: tile_size,
@@ -325,10 +326,15 @@ class GUI
     level_width = level.tiles[0].size
     x_offset = $pan_x + (1280 - (level_width * tile_size)) / 2
     y_offset = $pan_y + (720 - (level_height * tile_size)) / 2
-
     level.items.each do |item|
       visible = Tile.is_tile_visible?(item.x, item.y, args)
       next unless visible
+      lighting = level.lighting[item.y][item.x] # 0.0 to 1.0
+      hue = item.color[0]
+      saturation = item.color[1]
+      level = item.color[2]
+      level *= lighting
+      color = Color::hsl_to_rgb(hue, saturation, level)
       args.outputs.sprites << {
         x: x_offset + item.x * tile_size,
         y: y_offset + item.y * tile_size,
@@ -339,16 +345,16 @@ class GUI
         tile_y: item.c[1]*16,
         tile_w: 16,
         tile_h: 16,
-        r: item.color[0],
-        g: item.color[1],
-        b: item.color[2],
+        r: color[:r],
+        g: color[:g],
+        b: color[:b],
         a: 255
       }
     end
   end
 
   def self.draw_entities args
-    level = args.state.dungeon.levels[args.state.current_depth]
+    level = Utils.level(args)
     return unless level
     level.entities.each do |entity|
       unless entity == args.state.hero
@@ -374,12 +380,15 @@ class GUI
       y_offset = $pan_y + (720 - (level_height * tile_size)) / 2
       x = entity.visual_x
       y = entity.visual_y
-      alpha = 255
       if entity.invisible?
         alpha = 77
       end
       lighting = level.lighting[y][x] # 0.0 to 1.0
-      alpha = (alpha.to_f * lighting.to_f).to_i.clamp(0, 255)
+      hue = entity.hue
+      saturation = entity.color[1]
+      level = entity.color[2]
+      level *= lighting
+      color = Color::hsl_to_rgb(hue, saturation, level)
       args.outputs.sprites << {
         x: x_offset + x * tile_size,
         y: y_offset + y * tile_size,
@@ -390,10 +399,9 @@ class GUI
         tile_y: entity.c[1]*16,
         tile_w: 16,
         tile_h: 16,
-        r: entity.color[0],
-        g: entity.color[1],
-        b: entity.color[2],
-        a: alpha
+        r: color[:r],
+        g: color[:g],
+        b: color[:b]
       }
     end
   end
@@ -462,6 +470,7 @@ class GUI
           hero.x += dx
           hero.y += dy
           args.state.kronos.spend_time(hero, hero.walking_speed, args)
+          Lighting.mark_lighting_stale
           return true
         end
       end
@@ -540,6 +549,7 @@ class GUI
     level = args.state.hero.depth
     dungeon = args.state.dungeon
     tile = dungeon.levels[level].tiles[y][x]
+    Lighting.mark_lighting_stale
   end
 
   def self.pan_to_player args

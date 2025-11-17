@@ -1,12 +1,13 @@
 class Trauma
-  attr_reader :kind, :category, :treatments, :body_part, :last_treated, :severity
-  def initialize(kind, body_part, severity)
+  attr_reader :kind, :category, :treatments, :body_part, :last_treated, :severity, :entity
+  def initialize(kind, body_part, severity, entity)
     @kind = kind
     @category = Trauma.kinds.find { |cat, kinds| kinds.include?(kind) }&.first
     @treatments = []
     @body_part = body_part
     @severity = severity
     @last_treated = nil # simulation time when applied
+    @entity = entity
   end
 
   def self.categories
@@ -40,6 +41,13 @@ class Trauma
     when :minor
       @severity = :healed
     end
+    # check for shock recovery
+    if entity.has_status?(:shock)
+      still_shocked = Trauma.determine_shock(entity)  
+      unless still_shocked
+        entity.remove_status(:shock)
+      end
+    end
   end
 
   def numeric_severity
@@ -62,7 +70,7 @@ class Trauma
   def self.inflict(entity, body_part, kind, severity, args)
     category = kinds.find { |cat, kinds| kinds.include?(kind) }&.first
     raise 'Unknown trauma kind' unless category
-    trauma = Trauma.new(kind, body_part, severity)
+    trauma = Trauma.new(kind, body_part, severity, entity)
     trauma.instance_variable_set(:@body_part, body_part)  
     entity.traumas << trauma
     entity.increase_need(:avoid_being_hit)

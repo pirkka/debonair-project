@@ -12,17 +12,19 @@ class NPC < Entity
     @home_depth = depth
     @depth = depth
     @status = []
+    @traits = []
     super(x, y)
     initialize_needs
     @behaviours = []
     Behaviour.setup_for_npc(self)
+    self.setup_traits
   end
 
   def name
     @species.to_s.capitalize.gsub('_',' ')
   end
 
-  def hue
+  def hue # deprecate!!!
     case @species
     when :goblin, :orc
       return 120  
@@ -35,25 +37,41 @@ class NPC < Entity
     end
   end
 
+  # these are HSl values (hue, saturation, level)
   def color
     case @species
     when :goblin, :orc
-      return [20, 125, 20]
+      return [20, 255, 100]
     when :grid_bug
-      return [255, 0, 255]
+      return [130, 170, 100]
     when :rat
-      return [80, 70, 48]
+      return [80, 80, 20]
     when :wraith
       return [200, 200, 255]
     when :skeleton
-      return [220, 220, 220]
+      return [0, 0, 100]
     when :minotaur
       return [150, 75, 0]
     else
       return [255, 255, 255]
     end
   end
-  
+
+  def setup_traits
+    case @species
+    when :goblin, :orc
+      @traits << [:skinny, :fat, :short, :tall, :muscular].sample
+    when :grid_bug
+      @traits << [:shiny, :metallic, :buzzing].sample
+    when :rat
+      @traits << [:skinny, :fat, :big, :small, :muscular].sample
+    when :wraith
+    when :skeleton
+    when :minotaur
+    end
+  end
+
+
   def c 
     # x, y character representation from the sprite sheet
     case @species

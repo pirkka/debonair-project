@@ -83,6 +83,14 @@ class Hero < Entity
     return @traits[0]
   end
 
+  def hue
+    0
+  end
+
+  def color # hsl
+    return [255, 0, 255]
+  end
+
   def vision_range
     range = 112
     if @age == :elder

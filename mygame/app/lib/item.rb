@@ -1,6 +1,6 @@
 class Item
   attr_accessor :kind, :category, :cursed, :identified, :level, :x, :y
-  attr_reader :attributes, :weight
+  attr_reader :attributes, :weight, :traits
   def initialize(kind, category, identified = false)
     @kind = kind
     @category = category
@@ -10,6 +10,7 @@ class Item
     @x = nil
     @y = nil
     @attributes = []
+    @traits = []
     set_weight
   end
 
@@ -55,7 +56,7 @@ class Item
   end
 
   def color
-    [255, 215, 0]
+    [56, 100, 100]
   end
 
   def title

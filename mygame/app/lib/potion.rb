@@ -69,13 +69,6 @@ class Potion < Item
           end
         end
       end
-      # test for shock recovery
-      if entity.has_status?(:shock)
-        still_shocked = Trauma.determine_shock(entity)  
-        unless still_shocked
-          entity.remove_status(:shock)
-        end
-      end
       if effect == 0
         HUD.output_message(args, "You feel no different after drinking the potion.")
       end

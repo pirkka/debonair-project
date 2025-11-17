@@ -1,6 +1,6 @@
 #$gtk.trace_nil_punning!
 
-#$fixed_seed = 'dsfjkldasjf'
+$fixed_seed = 'dsfjkldasjdfdsaf'
 #$debug = true
 $dynamic_light_system = true
 $zoom = 0.7
@@ -24,7 +24,7 @@ require 'app/lib/gui'
 require 'app/lib/tile'
 require 'app/lib/entity'
 require 'app/lib/hero'
-require 'app/lib/color_conversion'
+require 'app/lib/color'
 require 'app/lib/leaves'
 require 'app/lib/sound_fx'
 require 'app/lib/utils'
@@ -112,6 +112,7 @@ def gameplay_tick args
 end
 
 def staircase_tick args
+  Lighting.calculate_lighting(args.state.dungeon.levels[args.state.current_depth], args) if $dynamic_light_system
   GUI.draw_background args
   GUI.draw_tiles args
   GUI.draw_items args
