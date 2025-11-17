@@ -103,7 +103,7 @@ class GUI
             @@look_mode_index = visible_things.size - 1
           end
           thing = visible_things[@@look_mode_index]
-          HUD.output_message args, "You see a #{thing.title}."
+          HUD.output_message args, "You see a #{thing.traits.join(', ')} #{thing.title}."
           @@look_mode_cooldown = 10
         elsif args.inputs.down && @@look_mode_cooldown == 0
           @@look_mode_index += 1
@@ -111,7 +111,7 @@ class GUI
             @@look_mode_index = 0
           end
           thing = visible_things[@@look_mode_index]
-          HUD.output_message args, "You see a #{thing.title}."
+          HUD.output_message args, "You see a #{thing.traits.join(', ')} #{thing.title}."
           @@look_mode_cooldown = 10
         else
           thing = visible_things[@@look_mode_index]
@@ -328,8 +328,6 @@ class GUI
     level.items.each do |item|
       visible = Tile.is_tile_visible?(item.x, item.y, args)
       next unless visible
-      printf "Drawing item %s at %d,%d\n" % [item.kind.to_s, item.x, item.y]
-      printf "level lighting object: %s\n" % level.lighting.inspect
       lighting = level.lighting[item.y][item.x] # 0.0 to 1.0
       hue = item.color[0]
       saturation = item.color[1]

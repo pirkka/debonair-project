@@ -7,6 +7,7 @@ class Potion < Item
   def self.kinds
     [
     :potion_of_healing,
+    :potion_of_healing,
     # :potion_of_strength,
     # :potion_of_speed,
     # :potion_of_invisibility,
@@ -17,10 +18,6 @@ class Potion < Item
     # :potion_of_levitation,
     # :potion_of_telepathy,
     :potion_of_extra_healing,
-    :potion_of_teleportation,
-    :potion_of_teleportation,
-    :potion_of_teleportation,
-    :potion_of_teleportation,
     :potion_of_teleportation,
     ]
   end

@@ -158,13 +158,13 @@ class Combat
     # roll for severity
     severity_roll = args.state.rng.d20 + severity_modifier
     case severity_roll
-    when 1..8
+    when 1..10
       return :minor
-    when 9..14
+    when 11..15
       return :moderate
-    when 15..18
+    when 16..19
       return :severe
-    when 19..Float::INFINITY
+    when 20..Float::INFINITY
       return :critical
     end
   end

@@ -127,9 +127,7 @@ class Tile
     # base color
     saturation_modifier = visible ? 1.0 : 0.7
     lightness_modifier = visible ? 1.0 : 0.4
-    if visible
-      lightness_modifier = 1.0 - (1.0 * (1.0 - lighting.clamp(0.0, 1.0)))
-    end
+    lightness_modifier = 1.0 - (1.0 * (1.0 - lighting.clamp(0.0, 1.0)))
     color = case tile
       when :rock
         Color.hsl_to_rgb(hue, 80 * saturation_modifier, 70 * lightness_modifier)

@@ -56,7 +56,7 @@ class Ring < Item
       when :ring_of_illumination
         suffix = " It lights up the area around you."
       when :ring_of_invisibility
-        suffix = " You feel unseen."
+        suffix = " You become invisible!"
       when :ring_of_telepathy
         suffix = " You feel connected to other minds."
       end

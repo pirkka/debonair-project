@@ -160,8 +160,6 @@ class Entity
 
   def teleport(args, x=nil, y=nil)
     level = args.state.dungeon.levels[self.depth]
-    printf "#{self.name} attempts to teleport to (%s, %s) on level %d\n" % [x.nil? ? "random" : x.to_s, y.nil? ? "random" : y.to_s, self.depth] 
-    printf level.class.to_s + "\n"
     if x.nil? || y.nil?
       # random teleport
       max_attempts = 100
