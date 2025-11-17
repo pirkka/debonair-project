@@ -32,11 +32,17 @@ class Lighting
   def self.populate_lights(args)
     dungeon = args.state.dungeon
     for level in dungeon.levels
-      level.lights = []
-      # place a torch in each room
-      level.rooms.each do |room|
-        torch = Light.new(room.center_x, room.center_y, :torch)
-        level.lights << torch
+      level.lights ||= []
+      for y in 0...level.height
+        for x in 0...level.width
+          tile = level.tiles[y][x]
+          if tile == :wall
+            if args.state.rng.d12 == 1
+              light = Light.new(x, y, :torch)
+              level.lights << light
+            end
+          end
+        end
       end
       # calculate lighting for the level
       self.calculate_lighting(level, args)
@@ -72,13 +78,36 @@ class Light
     when :bonfire
       return 13.0
     when :torch
-      return 5.0
+      return 4.0
     when :lamp
       return 7.5
     when :candle
       return 0.4
     end
     return 0
+  end
+
+  def self.draw_lights args
+    level = Utils.level(args)
+    level.lights.each do |light|
+      unless Tile.is_tile_visible?(light.x, light.y, args)
+        next
+      end
+      case light.kind
+      when :torch, :bonfire
+        x = Utils.offset_x(args) + (light.x+0.25) * Utils.tile_size(args)
+        y = Utils.offset_y(args) + (light.y+0.25) * Utils.tile_size(args)
+        w = 16
+        h = 16
+        args.outputs.primitives << {
+          x: x,
+          y: y,
+          w: w,
+          h: h,
+          path: "sprites/objects/torch.png",
+        }
+      end
+    end
   end
 end
 

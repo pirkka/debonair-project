@@ -58,7 +58,7 @@ class Behaviour
 
   def execute args
     if args.state.hero.sees?(@npc, args)
-      printf "Executing behaviour #{@kind} for NPC #{@npc.species} at (#{@npc.x}, #{@npc.y}) - level #{@npc.depth} - time #{args.state.kronos.world_time}\n"  
+      printf "Executing behaviour #{@kind} for NPC #{@npc.species} at (#{@npc.x}, #{@npc.y}) - level #{@npc.depth} - time #{args.state.kronos.world_time.round(2)}\n"  
     end
     method_name = @kind.to_s
     if self.respond_to?(method_name)

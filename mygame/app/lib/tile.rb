@@ -99,13 +99,12 @@ class Tile
   end
 
   def self.draw_tiles args
-    dungeon = args.state.dungeon
-    level = dungeon.levels[args.state.current_depth]
-    level_height = dungeon.levels[args.state.current_depth].tiles.size
-    level_width = dungeon.levels[args.state.current_depth].tiles[0].size
-    tile_size = 40 * $zoom
-    x_offset = $pan_x + (1280 - (level_width * tile_size)) / 2
-    y_offset = $pan_y + (720 - (level_height * tile_size)) / 2
+    level = Utils.level(args)
+    level_height = level.tiles.size
+    level_width = level.tiles[0].size
+    tile_size = Utils.tile_size(args)
+    x_offset = Utils.offset_x(args)
+    y_offset = Utils.offset_y(args)
     hue = level.floor_hsl[0]
     tile_visibility = @@tile_visibility_per_level[args.state.current_depth] || []
     tile_memory = @@tile_memory_per_level[args.state.current_depth] || []

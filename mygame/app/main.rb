@@ -103,6 +103,7 @@ def gameplay_tick args
   Lighting.calculate_lighting(args.state.dungeon.levels[args.state.current_depth], args) if $dynamic_light_system
   GUI.draw_background args
   GUI.draw_tiles args
+  Light.draw_lights args
   GUI.draw_items args
   GUI.draw_entities args
   GUI.pan_to_player args

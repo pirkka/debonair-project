@@ -1,5 +1,29 @@
 module Utils
 
+  def self.level(args)
+    return args.state.dungeon.levels[args.state.current_depth]
+  end
+
+  def self.tile_size(args)
+    return 40 * $zoom
+  end
+
+  def self.level_width(args)
+    return self.level(args).width
+  end
+
+  def self.level_height(args)
+    return self.level(args).height
+  end
+
+  def self.offset_x(args)
+    $pan_x + (1280 - (self.level_width(args) * self.tile_size(args))) / 2
+  end
+
+  def self.offset_y(args)
+    $pan_y + (720 - (self.level_height(args) * self.tile_size(args))) / 2
+  end
+
   def self.distance(x0, y0, x1, y1)
     return Math.sqrt((x1 - x0)**2 + (y1 - y0)**2)
   end
