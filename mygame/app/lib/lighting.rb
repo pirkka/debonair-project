@@ -7,7 +7,6 @@ class Lighting
   end
 
   def self.calculate_light_level_at(level, x, y)
-    timer = Time.now
     # initilalize light levels at zero
     # iterate through all light sources on the level
     light_level = 0.0
@@ -22,6 +21,15 @@ class Lighting
             contribution = 30.0 / (distance * distance)
             light_level += contribution
           end
+        end
+        # grid bugs
+        if entity.species == :grid_bug
+          distance = Utils::distance(entity.x, entity.y, x, y)
+          if distance < 0.1
+            distance = 0.1
+          end
+          contribution = 20.0 / (distance * distance)
+          light_level += contribution
         end
       end
       level.lights.each do |light|
@@ -57,6 +65,7 @@ class Lighting
   end
 
   def self.calculate_lighting(level, args)
+    printf "Calculating lighting for level %d...\n" % level.depth
     if @@lighting_stale
       unless level.lighting
         level.lighting = Array.new(level.height) { Array.new(level.width, 0.0) }
@@ -100,7 +109,7 @@ class Light
   def self.draw_lights args
     level = Utils.level(args)
     level.lights.each do |light|
-      unless Tile.is_tile_visible?(light.x, light.y, args)
+      unless Tile.is_tile_memorized?(light.x, light.y, args)
         next
       end
       case light.kind

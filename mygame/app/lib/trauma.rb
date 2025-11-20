@@ -38,7 +38,7 @@ class Trauma
       @severity = :moderate
     when :moderate
       @severity = :minor
-    when :minor
+    else :minor
       @severity = :healed
     end
     # check for shock recovery

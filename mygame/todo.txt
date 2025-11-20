@@ -9,6 +9,8 @@ TODO LIST
 - drop weapon when hand is hit, skill modifiers
 - bigger rooms!!
 - bigger caves 
+- make grid bugs light sources
+- taming grid bugs with food
 - doors
 - fix levels that do not have exit
 - detective should detect secret doors automagically

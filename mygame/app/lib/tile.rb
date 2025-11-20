@@ -48,12 +48,16 @@ class Tile
     return tile_visibility[y] && tile_visibility[y][x]
   end
 
+  def self.is_tile_memorized?(x, y, args)
+    tile_memory = @@tile_memory_per_level[args.state.current_depth] || []
+    return tile_memory[y] && tile_memory[y][x]
+  end
+
   def self.auto_map_whole_level args
     level = Utils.level(args)
     level_height = Utils.level_height(args)
     level_width = Utils.level_width(args)
-    @@tile_memory_per_level[args.state.current_depth] ||= []
-    tile_memory = @@tile_memory_per_level[args.state.current_depth] 
+    tile_memory = []
     for y in 0...level_height
       tile_memory[y] ||= []
       for x in 0...level_width
