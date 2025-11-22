@@ -538,7 +538,6 @@ class GUI
     else
       @@input_cooldown = 8 # frames
     end    
-    SoundFX.play_sound(:walk, $gtk.args)
   end
 
   def self.mark_tiles_stale

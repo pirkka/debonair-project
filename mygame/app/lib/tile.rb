@@ -54,19 +54,20 @@ class Tile
   end
 
   def self.enter(entity, x, y, args)
+    level = Utils.level_by_depth(entity.depth, args)
+    tile = level.tile_at(x, y)
     entity.x = x
     entity.y = y
     base_walking_speed = entity.walking_speed || 1.0
     random_element = 0.8 + (args.state.rng.nxt_float * 0.4) # 0.8 to 1.2
-    time_spent = base_walking_speed * self.terrain_modifier_for_entity(x, y, entity, args) * random_element
+    time_spent = base_walking_speed * self.terrain_modifier_for_entity(tile, entity, args) * random_element
     args.state.kronos.spend_time(entity, time_spent, args)
     Lighting.mark_lighting_stale
     GUI.mark_tiles_stale
+    entity.walking_sound(tile, args)
   end
 
-  def self.terrain_modifier_for_entity(x, y, entity, args)
-    level = Utils.level_by_depth(entity.depth, args)
-    tile = level.tile_at(x, y)
+  def self.terrain_modifier_for_entity(tile, entity, args)
     case tile
     when :floor
       return 1.0

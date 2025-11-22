@@ -193,4 +193,8 @@ class Entity
     end
     return slowed
   end 
+
+  def walking_sound tile, args
+    return
+  end
 end

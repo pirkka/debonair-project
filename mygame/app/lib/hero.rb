@@ -291,4 +291,12 @@ class Hero < Entity
     end
     apply_exhaustion(exhaustion_increase, args)
   end
+
+  def walking_sound tile, args
+    if tile == :water
+      SoundFX.play_sound(:splash, args)
+    else
+      SoundFX.play_sound(:walk, args)
+    end
+  end
 end
