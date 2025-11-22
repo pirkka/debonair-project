@@ -69,7 +69,7 @@ class Architect
     when 10
       return :fiery
     else
-      return [:rocky].sample
+      return [:hack, :lush, :rocky].sample
     end
   end
 

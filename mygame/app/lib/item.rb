@@ -115,11 +115,19 @@ class Item
           item.y = room.center_y
           level.items << item
         when 3
-          item = Ring.new(Ring.kinds.sample)
-          item.depth = level.depth
-          item.x = room.center_x
-          item.y = room.center_y
-          level.items << item
+          if args.state.rng.d6 < 4
+            item = Ring.new(Ring.kinds.sample)
+            item.depth = level.depth
+            item.x = room.center_x
+            item.y = room.center_y
+            level.items << item
+          else
+            item = Potion.new(:potion_of_healing)
+            item.depth = level.depth
+            item.x = room.center_x
+            item.y = room.center_y
+            level.items << item
+          end
         when 4
           item = Weapon.randomize(level.depth, args)
           item.x = room.center_x

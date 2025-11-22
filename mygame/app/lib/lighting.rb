@@ -107,7 +107,7 @@ class Light
   def intensity
     case @kind
     when :bonfire
-      return 13.0
+      return 6.0
     when :torch
       return 4.0
     when :lamp
@@ -128,14 +128,29 @@ class Light
       when :torch, :bonfire
         x = Utils.offset_x(args) + (light.x+0.25) * Utils.tile_size(args)
         y = Utils.offset_y(args) + (light.y+0.25) * Utils.tile_size(args)
-        w = 16
-        h = 16
+        tile_size = 16
+        tile_selection = case light.kind
+        when :torch
+          [7,2]
+        when :bonfire
+          [14,5]
+        end
         args.outputs.primitives << {
           x: x,
           y: y,
-          w: w,
-          h: h,
-          path: "sprites/objects/torch.png",
+          w: tile_size,
+          h: tile_size,
+          path: "sprites/sm16px.png",
+          tile_x: tile_selection[0] * tile_size,
+          tile_y: tile_selection[1] * tile_size,
+          tile_w: tile_size,
+          tile_h: tile_size,
+          angle: 0,
+          r: 255,
+          g: 140,
+          b: 0,
+          a: 200,
+          blendmode: :additive
         }
       end
     end

@@ -40,7 +40,7 @@ class Level
     when :ice
       @floor_hsl = [200, 100, 90]
     when :rocky
-      @floor_hsl = [34, 0, 80]
+      @floor_hsl = [140, 0, 80]
     when :water
       @floor_hsl = [200, 150, 80]
     else  
@@ -234,8 +234,8 @@ class Level
         target_room = @rooms.sample
         next if target_room == room
         # point in the middle of the target room
-        target_x = Numeric.rand(target_room.x...(target_room.x + target_room.w)).to_i
-        target_y = Numeric.rand(target_room.y...(target_room.y + target_room.h)).to_i
+        target_x = Numeric.rand(target_room.x...(target_room.x + target_room.w - 1)).to_i
+        target_y = Numeric.rand(target_room.y...(target_room.y + target_room.h - 1)).to_i
         # create a corridor from center of room to target_x, target_y
         current_x = room.x + (room.w / 2).to_i
         current_y = room.y + (room.h / 2).to_i
