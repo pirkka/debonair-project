@@ -115,18 +115,16 @@ class Tile
 
   def self.draw_tiles args
     level = Utils.level(args)
-    level_height = level.tiles.size
-    level_width = level.tiles[0].size
     tile_size = Utils.tile_size(args)
     x_offset = Utils.offset_x(args)
     y_offset = Utils.offset_y(args)
     hue = level.floor_hsl[0]
     tile_visibility = @@tile_visibility_per_level[args.state.current_depth] || []
     tile_memory = @@tile_memory_per_level[args.state.current_depth] || []
-
     for y in level.tiles.each_index
       for x in level.tiles[y].each_index
         tile_memory[y] ||= []
+        tile_visibility[y] ||= []
         if tile_visibility[y][x]
           tile = level.tiles[y][x]
         else

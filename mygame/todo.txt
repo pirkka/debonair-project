@@ -14,11 +14,8 @@ NOTES ON GAME SYSTEM
 - how long distance is one square?
 - how many seconds is the time unit? (maybe 10?)
 
-
-
-
 TODO LIST
-- lava, shallow water, deep water 
+- lava, shallow water, deep water
 - enter tile method - good for traps, lighting recalc etc.
 - bigger caves 
 - HI SCORE LIST: (- time used + amulet + survival - wounds/lost body parts + collected loot + quests(?))

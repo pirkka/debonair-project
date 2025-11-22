@@ -181,6 +181,10 @@ class GUI
       @@look_mode_index = nil 
     end
     # debug inputs
+    if args.inputs.controller_one.key_down.r3 || args.inputs.keyboard.key_down.escape
+      $debug = !$debug
+      HUD.output_message args, "Debug mode #{$debug ? 'enabled' : 'disabled'}."
+    end
     if $debug
       if args.inputs.keyboard.key_down.m || args.controller_one.key_down.x
         Tile.auto_map_whole_level(args)

@@ -244,6 +244,7 @@ class HUD
     delta_time = last_tick_time ? time_now - last_tick_time : 0
     args.state.last_tick_time = time_now
     millisecs = (delta_time * 1000).to_i
+    level = args.state.dungeon.levels[hero.depth]
     if $debug
       args.outputs.labels << {
         x: 10,
@@ -259,7 +260,7 @@ class HUD
       args.outputs.labels << {
         x: 10,
         y: 100,
-        text: "pos [#{hero.x}, #{hero.y}] level #{hero.depth} tiletype: #{args.state.dungeon.levels[hero.depth].tiles[hero.y][hero.x]} lighting: #{args.state.dungeon.levels[hero.depth].lighting[hero.y][hero.x]} auto_move: #{GUI.auto_move}",
+        text: "pos [#{hero.x}, #{hero.y}] level #{hero.depth} vibe: #{level.vibe if level} tiletype: #{args.state.dungeon.levels[hero.depth].tiles[hero.y][hero.x]} lighting: #{args.state.dungeon.levels[hero.depth].lighting[hero.y][hero.x]} auto_move: #{GUI.auto_move}",
         size_enum: 0,
         r: 255,
         g: 255,

@@ -55,9 +55,8 @@ class Architect
   end
 
   def create_level(args, depth, vibe)
-    level = Level.new
-    level.depth = depth
-    level.vibe = vibe
+    level = Level.new(depth, vibe)
+    printf "Creating level %d with vibe %s\n" % [depth, vibe.to_s]
     level.tiles = Array.new(@settings[:level_height]) { Array.new(@settings[:level_width], :floor) }
     return level
   end

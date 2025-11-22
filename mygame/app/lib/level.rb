@@ -1,15 +1,16 @@
 class Level
   attr_accessor :depth, :tiles, :items, :lights
   attr_accessor :floor_hsl # this determines the color scheme of the level
-  attr_accessor :vibe # this is a placeholder for different styles of level
+  attr_accessor :vibe # :hack, :lush, :swamp, :fiery, :ice, :rocky, :water
   attr_accessor :rooms
   attr_accessor :entities
   attr_accessor :lighting
   attr_accessor :los_cache
 
-  def initialize
+  def initialize(depth, vibe = :hack)
+    @depth = depth
     @tiles = []
-    @vibe = :hack
+    @vibe = vibe  
     self.set_colors
     @rooms = []
     @entities = []
@@ -32,7 +33,7 @@ class Level
     when :hack
       @floor_hsl = [34, 0, 100]
     when :lush
-      @floor_hsl = [120, 255, 100]
+      @floor_hsl = [280, 255, 100]
     when :swamp
       @floor_hsl = [34, 0, 100]
     when :fiery
