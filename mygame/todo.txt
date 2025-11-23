@@ -15,34 +15,36 @@ NOTES ON GAME SYSTEM
 - how many seconds is the time unit? (maybe 10?)
 
 TODO LIST
-- picking up torches from the wall
+- performance optimization (bigger levels we can only support pretty small ones atm)
+- status / emotion markers!!!
+- show wielded items in inventory (handedness)
+- drop weapon when hand is hit, skill modifiers, handedness, wield-hand
+- fireball animation
+- make the game slow down properly when there is danger/combat!!!
+- walking speed modifiers for wounds below waist
+- different weapons make different damage
 - cutting/slicing weapons (not just bruises)
 - do undead get shock or do they just crumble to dust?
-- walking speed modifiers for wounds below waist
-- fireball animation
 - magic missiles
-- drop weapon when hand is hit, skill modifiers, handedness, wield-hand
-- show wielded items in inventory (handedness)
-- status / emotion markers!!!
 - grid bug coloring (can we get gradients or something??)
 - taming grid bugs with food
 - doors
 - fix levels that do not have exit
-- detective should detect secret doors automagically
 - architect secret doors
+- architect secret/hidden items
+- detective should detect secret doors automagically
 - stealth/hearing mechanics
 - tending to wounds
-- different weapons make different damage
 - pickaxe cheat / mining bombs / hold down y to dig
 - body parts have a tree
 - armor
-- perfromance optimization (bigger levels)
 - lichen
 - bigger level area, more levels
 
 
 
 DONE LIST
+- picking up torches from the wall
 - bigger rooms!!
 - HI SCORE LIST: (- time used + amulet + survival - wounds/lost body parts + collected loot + quests(?))
 - enter tile method - good for traps, lighting recalc etc.

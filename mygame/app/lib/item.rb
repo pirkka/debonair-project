@@ -195,4 +195,8 @@ class Item
       return 12.0
     end
   end
+
+  def use(user, args)
+    # default: do nothing
+  end
 end

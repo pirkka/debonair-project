@@ -17,8 +17,13 @@ class Foliage
     x_offset = Utils.offset_x(args)
     y_offset = Utils.offset_y(args)
     tile_visibility = Tile.tile_visibility(level, args)
-    for y in level.foliage.each_index
-      for x in level.foliage[y].each_index
+    tile_viewport = Utils.tile_viewport args
+    x_start = tile_viewport[0]
+    y_start = tile_viewport[1]
+    x_end = tile_viewport[2]
+    y_end = tile_viewport[3]
+    for y in (y_start..y_end)
+      for x in (x_start..x_end)
         next unless level.foliage[y][x]
         visible = tile_visibility[y] && tile_visibility[y][x]
         foliage_type = level.foliage[y][x]

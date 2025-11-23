@@ -199,7 +199,7 @@ class Hero < Entity
     item.depth = nil
     printf "Picked up item: %s\n" % item.kind.to_s
     SoundFX.play_sound(:pick_up, args)
-    HUD.output_message(args, "You picked up #{item.kind}.")
+    HUD.output_message(args, "You picked up #{item.title}.")
   end
 
   def has_item?(item_kind)

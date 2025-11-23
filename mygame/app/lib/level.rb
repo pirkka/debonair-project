@@ -43,7 +43,7 @@ class Level
     when :ice
       @floor_hsl = [200, 100, 90]
     when :rocky
-      @floor_hsl = [140, 0, 80]
+      @floor_hsl = [40, 0, 80]
     when :water
       @floor_hsl = [200, 150, 80]
     else  
@@ -90,7 +90,7 @@ class Level
       end
       width = Numeric.rand(5..11) # little nod to the classic rogue and wide displays
       height = Numeric.rand(5..9)
-      buffer = 1
+      buffer = 2
       x = rand(@tiles[0].size - width - buffer*2) + buffer
       y = rand(@tiles.size - height - buffer*2) + buffer
       new_room = Room.new(x, y, width, height)
@@ -117,11 +117,8 @@ class Level
             dx = j - room.center_x
             dy = i - room.center_y
             if ((dx * dx) * (radius_y * radius_y) + (dy * dy) * (radius_x * radius_x)) <= (radius_x * radius_x) * (radius_y * radius_y)
-              printf "#{i}, #{j}, inside ellipse\n"
               # inside ellipse, no walls
               @tiles[i][j] = :floor if @tiles[i][j] == :rock
-            else
-              printf "outside ellipse\n"
             end
           end
         end

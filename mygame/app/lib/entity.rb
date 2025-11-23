@@ -157,7 +157,7 @@ class Entity
     level.items << item
     printf "Dropped item: %s\n" % item.kind.to_s
     SoundFX.play_sound(:drop_item, args)
-    HUD.output_message(args, "#{self.name} dropped #{item.kind.to_s.gsub('_',' ')}.")
+    HUD.output_message(args, "#{self.name} dropped #{item.title}.")
   end
 
   def teleport(args, x=nil, y=nil)

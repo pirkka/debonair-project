@@ -32,6 +32,17 @@ module Utils
     return Math.sqrt((x1 - x0)**2 + (y1 - y0)**2)
   end
 
+  def self.tile_viewport args
+    # return an array [x_start, y_start, x_end, y_end] of tiles that are visible in the current viewport
+    # use zoom level and pan offsets to calculate
+    tile_size = self.tile_size args
+    x_start = ((-self.offset_x(args)) / tile_size).floor.clamp(0, self.level_width(args) - 1)
+    y_start = ((-self.offset_y(args)) / tile_size).floor.clamp(0, self.level_height(args) - 1)
+    x_end = ((-self.offset_x(args) + 1280) / tile_size).ceil.clamp(0, self.level_width(args) - 1)
+    y_end = ((-self.offset_y(args) + 720) / tile_size).ceil.clamp(0, self.level_height(args) - 1) 
+    return [x_start, y_start, x_end, y_end]
+  end
+
   def self.line_of_sight?(x0, y0, x1, y1, level)
     line_points = get_line(x0, x1, y0, y1)
     line_points.shift

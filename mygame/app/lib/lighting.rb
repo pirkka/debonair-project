@@ -8,7 +8,7 @@ class Lighting
 
   def self.calculate_light_level_at(level, x, y)
     # iterate through all light sources on the level
-    light_level = 0.0
+    light_level = 0.2
     level.entities.each do |entity|
       entity.carried_items.each do |item|
         if item.kind == :torch
@@ -77,8 +77,6 @@ class Lighting
           end
         end
       end 
-      # calculate lighting for the level
-      self.calculate_lighting(level, args)
     end
   end
 
@@ -87,8 +85,13 @@ class Lighting
       unless level.lighting
         level.lighting = Array.new(level.height) { Array.new(level.width, 0.0) }
       end
-      for y in 0...level.height
-        for x in 0...level.width
+      tile_viewport = Utils.tile_viewport args
+      x_start = tile_viewport[0]
+      y_start = tile_viewport[1]
+      x_end = tile_viewport[2]
+      y_end = tile_viewport[3]
+      for y in y_start..y_end
+        for x in x_start..x_end
           # only if within line of sight
           if level.los_cache["#{args.state.hero.x},#{args.state.hero.y}->#{x},#{y}"]
             level.lighting[y][x] = self.calculate_light_level_at(level, x, y)

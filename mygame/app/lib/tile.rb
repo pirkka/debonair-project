@@ -109,9 +109,15 @@ class Tile
 
     # determine visible tiles (line of sight)
     tile_visibility = @@tile_visibility_per_level[args.state.current_depth] ||= []
-    for y in level.tiles.each_index
+    tile_viewport = Utils.tile_viewport args
+    x_start = tile_viewport[0]
+    y_start = tile_viewport[1]
+    x_end = tile_viewport[2]
+    y_end = tile_viewport[3]
+
+    for y in (y_start..y_end)
       tile_visibility[y] ||= []
-      for x in level.tiles[y].each_index
+      for x in (x_start..x_end)
         if Utils::distance(args.state.hero.x, args.state.hero.y, x, y) > vision_range
           tile_visibility[y][x] = false
           next
@@ -130,9 +136,9 @@ class Tile
 
     # update memory with currently visible tiles
     @@tile_memory_per_level[args.state.current_depth] ||= [] 
-    for y in level.tiles.each_index
+    for y in (y_start..y_end)
       @@tile_memory_per_level[args.state.current_depth][y] ||= []
-      for x in level.tiles[y].each_index
+      for x in (x_start..x_end)
         if tile_visibility[y][x]
           @@tile_memory_per_level[args.state.current_depth][y][x] = level.tiles[y][x]
         end
@@ -148,8 +154,17 @@ class Tile
     hue = level.floor_hsl[0]
     tile_visibility = @@tile_visibility_per_level[args.state.current_depth] || []
     tile_memory = @@tile_memory_per_level[args.state.current_depth] || []
-    for y in level.tiles.each_index
-      for x in level.tiles[y].each_index
+
+    # get the camera boundaries to limit drawing to visible area
+    # 
+    tile_viewport = Utils.tile_viewport args
+    x_start = tile_viewport[0]
+    y_start = tile_viewport[1]
+    x_end = tile_viewport[2]
+    y_end = tile_viewport[3]
+
+    for x in (x_start..x_end)
+      for y in (y_start..y_end)
         tile_memory[y] ||= []
         tile_visibility[y] ||= []
         if tile_visibility[y][x]
@@ -166,8 +181,12 @@ class Tile
   def self.draw(tile, y, x, tile_size, x_offset, y_offset, hue, visible, lighting, args)
     # base color
     saturation_modifier = visible ? 1.0 : 0.7
-    lightness_modifier = visible ? 1.0 : 0.4
-    lightness_modifier = 1.0 - (1.0 * (1.0 - lighting.clamp(0.0, 1.0)))
+    #lightness_modifier = visible ? 1.0 : 0.4
+    if visible
+      lightness_modifier = 1.0 - (1.0 * (1.0 - lighting.clamp(0.0, 1.0)))
+    else
+      lightness_modifier = 0.3
+    end
     color = case tile
       when :rock
         Color.hsl_to_rgb(hue, 80 * saturation_modifier, 70 * lightness_modifier)
