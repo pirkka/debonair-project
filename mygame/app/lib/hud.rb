@@ -63,7 +63,7 @@ class HUD
       args.outputs.labels << {
         x: x,
         y: y,
-        text: item.title,
+        text: item.title + " " + hero.wield_info(item),
         size_enum: 0,
         r: 255,
         g: 255,

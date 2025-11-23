@@ -75,8 +75,18 @@ class Weapon < Item
       HUD.output_message(args, "You unwield the #{self.attributes.join(' ')} #{self.kind.to_s.gsub('_',' ')}.".gsub('  ',' '))
       entity.wielded_items.delete(self)
     else
-      entity.wielded_items = [self] # only one weapon at a time for now
-      HUD.output_message(args, "You wield the #{self.attributes.join(' ')}#{self.kind.to_s.gsub('_',' ').gsub('  ',' ')}.")
+      # special case: if wielding a weapon and an off-hand item, replace the weapon with this one
+      if entity.wielded_items.size == 2 && entity.wielded_items[0].category == :weapon && entity.wielded_items[1].category != :weapon
+        entity.wielded_items[0] = self
+        HUD.output_message(args, "You switch to wielding the #{self.title}.")
+        return
+      end
+      # add to beginning of array
+      entity.wielded_items = [self] + entity.wielded_items
+      if entity.wielded_items.length > 2
+        entity.wielded_items = entity.wielded_items[0..1]
+      end
+      HUD.output_message(args, "You wield the #{self.title}.")
       SoundFX.play(:blade, args) # TODO: different sound for different weapon types
     end
     args.state.kronos.spend_time(entity, entity.walking_speed * 0.5, args) 

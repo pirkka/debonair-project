@@ -226,4 +226,17 @@ class Entity
       self.carried_items = []
     end
   end
+
+  def wield_info(item)
+    self.wielded_items.each_with_index do |wielded_item, index|
+      if wielded_item == item
+        if index == 0
+          return "(in right hand)"
+        elsif index == 1
+          return "(in left hand)"
+        end
+      end
+    end
+    return ""
+  end
 end

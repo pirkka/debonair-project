@@ -60,7 +60,7 @@ class Item
   end
 
   def title
-    "#{self.attributes.join(' ')} #{self.kind.to_s.gsub('_',' ')}".gsub('  ',' ').trim
+    "#{self.attributes.join(' ')} #{self.kind.to_s.gsub('_',' ')}"
   end
 
   def c 
@@ -197,6 +197,20 @@ class Item
   end
 
   def use(user, args)
-    # default: do nothing
+    if self.category == :portable_light
+      #wield/unwield the portable light
+      if user.wielded_items.include?(self)
+        user.wielded_items.delete(self)
+        HUD.output_message(args, "#{user.name} puts away the #{self.title}.")
+      else
+        # imporant that we add it to the end of the list
+        user.wielded_items << self
+        if user.wielded_items.length > 2
+          user.wielded_items = user.wielded_items.slice(1,2)
+        end
+        HUD.output_message(args, "#{user.name} wields the #{self.title}.")
+      end
+      return
+    end
   end
 end
