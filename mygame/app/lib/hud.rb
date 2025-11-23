@@ -42,7 +42,7 @@ class HUD
   def self.draw_inventory args
     hero = args.state.hero
     return unless hero && hero.carried_items.any?
-    return unless args.inputs.controller_one.key_held.r2 || args.inputs.keyboard.key_down.tab
+    return unless args.inputs.controller_one.key_held.r2 || args.inputs.keyboard.key_held.shift
     title = "Items Carried (#{Item.carried_weight(hero).round(2)} kg)"
     args.outputs.labels << {
       x: 960,
@@ -291,8 +291,8 @@ class HUD
     args.state.hud_messages ||= []
     m = message.to_s.gsub('_',' ').gsub('  ',' ').trim
     args.state.hud_messages << { text: m, time: args.state.kronos.world_time }
-    # keep only last 5 messages
-    if args.state.hud_messages.size > 10
+    # keep only last N messages
+    if args.state.hud_messages.size > 7
       args.state.hud_messages.shift 
     end
   end 
