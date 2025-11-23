@@ -82,6 +82,7 @@ class Combat
     defender_shocked = Trauma.determine_shock(defender)
     if defender_shocked
       defender.add_status(:shock)
+      defender.drop_wielded_items(args)
       HUD.output_message args, "#{dname} is in shock from trauma!"
     end
     # todo: inflict "shaken" effects to make the target miss some time due to receiving trauma
@@ -96,7 +97,7 @@ class Combat
         return
       else
         SoundFX.play_sound(:npc_death, args)
-        # remove defender from level
+        defender.drop_all_items(args)
         level = args.state.dungeon.levels[defender.depth]
         level.entities.delete(defender)
       end

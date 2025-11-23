@@ -239,6 +239,23 @@ class GUI
                 return
               end
             end
+            # if there is a torch on an adjacent tile, pick it up
+            adjacent_tiles = [[hero.x+1, hero.y], [hero.x-1, hero.y], [hero.x, hero.y+1], [hero.x, hero.y-1]]
+            adjacent_tiles.each do |tile_coords|
+              tx = tile_coords[0]
+              ty = tile_coords[1]
+              items_on_tile = level.lights.select { |item| item.x == tx && item.y == ty && item.kind == :torch }
+              if items_on_tile && items_on_tile.size > 0
+                items_on_tile.each do |item|
+                  torch = Item.new(:torch, :portable_light)
+                  hero.carried_items << torch
+                  level.lights.delete(item)
+                  HUD.output_message args, "You pick up the torch."
+                  SoundFX.play_sound(:torch, args)
+                  return
+                end
+              end
+            end
             tile = level.tiles[hero.y][hero.x]
             if tile == :staircase_down || tile == :staircase_up 
               unless args.inputs.keyboard.key_held.shift || args.inputs.controller_one.key_held.r2

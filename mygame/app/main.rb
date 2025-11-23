@@ -3,7 +3,7 @@
 #$fixed_seed = 'dsfjkldasjdfdsaf' # THIS ONE IS A NICE SAMURAI SEED
 #$fixed_seed = 'testing12345678'
 $debug = false
-$enable_music = false
+$enable_music = true
 $dynamic_light_system = true
 $zoom = 0.7
 $pan_x = 0.0

@@ -93,6 +93,7 @@ class Weapon < Item
       weapon.add_attribute(:crude)
     when :orc
       weapon = Weapon.new(:axe)
+      weapon.add_attribute(:crude)
     when :skeleton
       weapon = Weapon.new(:sword)
       weapon.add_attribute(:rusty)
