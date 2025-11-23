@@ -10,6 +10,22 @@ Touch screen and/or kbd/mouse might be added later, but are not a priority at th
 
 Double click the ./dragonruby executable to start up the game.
 
+## Controls
+
+### Gamepad
+
+D-pad/Left Stick - move and attack enemies (no diagonal movement is permitted)
+A - pick up objects, use staircases
+Left Trigger - hold to enable look mode where you can use up/down controls to look at stuff
+Right Trigger - hold to view inventory, A to use item, B to drop item
+
+### Keyboard
+
+WASD/arrow keys - to move and attack enemies (diagonal movement is not permitted)
+SPACE - pick up objects, use staircases
+Tab - hold to enable look mode where up/down controls let you look at stuff
+Shift - hold to open inventory, SPACE to use item, RETURN to drop item
+
 ## Source code
 
 Source code is located at ./mygame/app/main.rb.
