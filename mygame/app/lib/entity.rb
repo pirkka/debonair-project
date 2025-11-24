@@ -246,6 +246,7 @@ class Entity
       level.items << corpse
       HUD.output_message(args, "#{self.name.capitalize} has perished!")
     end
+    level.entities.delete(self)
   end
 
   def wield_info(item)

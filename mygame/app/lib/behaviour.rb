@@ -71,7 +71,6 @@ class Behaviour
     npc = @npc
     if npc.has_status?(:shock)
       args.state.kronos.spend_time(npc, npc.walking_speed * 4, args)
-      HUD.output_message args, "#{npc.name} is shocked and cannot move!"
       return
     end
     hero = args.state.hero

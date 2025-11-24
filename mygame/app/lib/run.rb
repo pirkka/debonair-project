@@ -19,6 +19,10 @@ class Run
     args.state.architect.architect_dungeon(args)
     @dungeon = args.state.dungeon # TODO: should we only access these things below the :run attribute?
     @hero = args.state.hero
+    @hero.carried_items << Scroll.new(:scroll_of_fireball)
+    @hero.carried_items << Scroll.new(:scroll_of_fireball)
+    @hero.carried_items << Scroll.new(:scroll_of_fireball)
+    @hero.carried_items << Scroll.new(:scroll_of_fireball)
     args.state.current_depth = 0
     args.state.kronos = Kronos.new
   end

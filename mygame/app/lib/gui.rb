@@ -66,6 +66,44 @@ class GUI
     end
   end
 
+  def self.draw_effects args
+    level = Utils.level(args)
+    return unless level
+    tile_size = Utils.tile_size(args)
+    x_offset = Utils.offset_x(args)
+    y_offset = Utils.offset_y(args)
+    viewport = Utils.tile_viewport(args)
+    level.effects.each do |effect|
+      visible = Tile.is_tile_visible?(effect.x, effect.y, args)
+      hsl = effect.color
+      rgb = Color::hsl_to_rgb(hsl[0], hsl[1], hsl[2])
+      color = { r: rgb[:r], g: rgb[:g], b: rgb[:b] }
+      next unless visible
+      # check if within viewport
+      if effect.x < viewport[0] || effect.x > viewport[2] || effect.y < viewport[1] || effect.y > viewport[3]
+        next
+      end
+      case effect.kind
+      when :fire
+        args.outputs.sprites << {
+          x: x_offset + effect.x * tile_size,
+          y: y_offset + effect.y * tile_size,
+          w: tile_size,
+          h: tile_size,
+          path: "sprites/sm16px.png",
+          tile_x: 7*16,
+          tile_y: 15*16,
+          tile_w: 16,
+          tile_h: 16,
+          r: color[:r],
+          g: color[:g],
+          b: color[:b],
+
+        }
+      end
+    end
+  end
+
   def self.handle_look_mode(args)
     if @@look_mode_cooldown && @@look_mode_cooldown > 0
       @@look_mode_cooldown -= 1
@@ -127,7 +165,7 @@ class GUI
         level_width = level.tiles[0].size
         x_offset = $pan_x + (1280 - (level_width * tile_size)) / 2
         y_offset = $pan_y + (720 - (level_height * tile_size)) / 2
-        printf "Look mode marker at #{thing.x*tile_size},#{thing.y*tile_size} x_offset: #{x_offset}, y_offset: #{y_offset}\n"
+        #printf "Look mode marker at #{thing.x*tile_size},#{thing.y*tile_size} x_offset: #{x_offset}, y_offset: #{y_offset}\n"
         args.outputs.primitives << {
           x: x_offset + thing.x * tile_size,
           y: y_offset + thing.y * (tile_size+1.5),
@@ -661,7 +699,6 @@ class GUI
     end
     return unless hero
     if args.inputs.controller_one.key_held.r2 || args.inputs.keyboard.key_held.shift
-      printf "Handling inventory input shift is held\n"
       args.state.selected_item_index ||= 0
     else
       args.state.selected_item_index = nil

@@ -7,11 +7,15 @@ class Level
   attr_accessor :lighting
   attr_accessor :los_cache
   attr_accessor :foliage
+  attr_accessor :effects
+  attr_accessor :fire
 
   def initialize(depth, vibe = :hack)
     @depth = depth
     @tiles = []
     @foliage = []
+    @effects = [] # for timed effects on tiles
+    @fire = [] # for longer fires
     @vibe = vibe  
     self.set_colors
     @rooms = []
@@ -315,29 +319,23 @@ class Level
         end
       end
     end
-
   end
 
-end
-class Room
-  attr_accessor :x, :y, :w, :h
-  def initialize(x, y, w, h)
-    @x = x
-    @y = y
-    @w = w
-    @h = h
+
+  def add_effect(kind, x, y, args)
+    effect_duration = 1.0 # default duration
+    effect = Effect.new(kind, x, y, effect_duration)
+    self.effects << effect
   end
 
-  def center_x
-    return (x + (w / 2)).to_i
-  end
-  
-  def center_y
-    return (y + (h / 2)).to_i
+  def apply_effects(args)
+    # apply timed effects on the room tiles
+    self.effects.each do |effect|
+      effect.update
+      if effect.duration_remaining <= 0
+        self.effects.delete(effect)
+      end
+    end
   end
 
-  def intersects?(other)
-    return !(@x + @w < other.x || other.x + other.w < @x ||
-             @y + @h < other.y || other.y + other.h < @y)
-  end
 end

@@ -26,6 +26,7 @@ class Kronos
   def initialize
     @world_time = 0 # simulation seconds since game start
     @continuous_effects_applied_until = 0
+    @level_effects_applied_until = 0
   end
 
   def spend_time entity, seconds, args
@@ -56,13 +57,28 @@ class Kronos
     if self.should_continous_effects_be_applied?
       self.apply_continuous_effects args
     end
+    if self.should_level_effects_be_applied?
+      self.apply_effects args
+    end
     idle_entity.take_action args 
   end
 
+  def should_level_effects_be_applied?
+    return @world_time > @level_effects_applied_until
+  end
+
+  # these are level effects like fire, magic etc. that affect tiles and decay over time
+  def apply_effects args
+    level = Utils.level(args)
+    level.apply_effects args
+    @level_effects_applied_until = @world_time + 0.2
+  end
+    
   def should_continous_effects_be_applied?
     return @world_time > @continuous_effects_applied_until
   end
   
+  # these effects are applied once every second of world time
   def apply_continuous_effects args
     # apply continuous effects like hunger, ring depletion, etc.
     hero = args.state.hero

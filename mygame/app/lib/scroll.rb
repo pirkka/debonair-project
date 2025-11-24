@@ -90,8 +90,10 @@ class Scroll < Item
         if x < 0 || x >= width || y < 0 || y >= height
           next
         end
-        printf "Entity xy: #{user.x}, #{user.y}\n"
+        # damage entities straight up for now (later to it in fire mechanism)
         if Math.sqrt((x - user.x)**2 + (y - user.y)**2) <= radius
+          # add fire to the tile
+          level.add_effect(:fire, x, y, args)
           target = Tile.entity_at(x, y, args)
           if target && target != args.state.hero            
             amount_of_burns = Numeric.rand(1..3)

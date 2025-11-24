@@ -15,7 +15,10 @@ NOTES ON GAME SYSTEM
 - how many seconds is the time unit? (maybe 10?)
 
 TODO LIST
-- potion identification
+- fireball animation - and other animations too, how should they be handled?
+    - world time speed or gui animation speed???
+    - world time speed feels more realistic
+- traps
 - make the game slow down properly when there is danger/combat!!!
 - status / emotion markers!!!
 - drop weapon when hand is hit, skill modifiers, handedness, wield-hand
@@ -24,7 +27,6 @@ TODO LIST
 - cutting/slicing weapons (not just bruises)
 - do undead get shock or do they just crumble to dust?
 - magic missiles
-- fireball animation
 - grid bug coloring (can we get gradients or something??)
 - taming grid bugs with food
 - doors
@@ -37,12 +39,12 @@ TODO LIST
 - pickaxe cheat / mining bombs / hold down y to dig
 - body parts have a tree
 - armor
-- lichen
-- bigger level area, more levels
 
 
 
 DONE LIST
+- bigger level area, more levels
+ o- potion identification
 - show wielded items in inventory (handedness)
 - performance optimization (bigger levels we can only support pretty small ones atm)
 - picking up torches from the wall
