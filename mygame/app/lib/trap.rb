@@ -31,6 +31,9 @@ class Trap
   end
 
   def trigger entity, args
+    if entity == args.state.hero
+      GUI.add_input_cooldown(30)
+    end
     printf "%s triggered a %s trap at (%d,%d)!\n" % [entity.name, @kind.to_s.gsub('_',' '), @x, @y]
     @found = true
     case @kind
@@ -41,25 +44,21 @@ class Trap
         hit_severity = Trauma.severities[1 + args.state.rng.rand(3)] # skip the healed one
         hit_kind = :pierce
         Trauma.inflict(entity, body_part, hit_kind, hit_severity, args)
-        SoundFX.play_sound(:hit, args)
+        SoundFX.play_sound(:hero_hurt, args)
       end
       HUD.output_message args, "#{entity.name} is impaled by #{amount_of_spikes} spikes!"
+    when :poison_dart
+      Status.new(entity, :poisoned, 10, args)
+      HUD.output_message args, "#{entity.name} is poisoned by a poison dart!"
 
     # when :fire
-
-    # when :poison_dart
-
     # when :rock
-
     # when :sleep_gas
-
-    # when :bear_trap
+    # when :bear_trap, :pit etc
 
     when :teleportation
       HUD.output_message args, "#{entity.name} steps on a teleportation trap!"
       entity.teleport(args)
-    when :pit
-
     when :trapdoor
       HUD.output_message args, "#{entity.name} falls through a trapdoor to the level below!"
       Utils.move_entity_to_level(entity, entity.depth + 1, args)

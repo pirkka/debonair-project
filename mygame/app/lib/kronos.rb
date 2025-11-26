@@ -91,7 +91,9 @@ class Kronos
     # shock recovery
     Utils.level(args).entities.each do |entity|
       entity.recover_shock args
+      Status.apply_statuses entity, args
     end
+    
     # worn rings
     hero.worn_items.each do |item|
       if item.category == :ring

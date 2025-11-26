@@ -132,7 +132,7 @@ class Behaviour
   def fight args
     # find target (e.g., hero) and move towards it
     npc = @npc
-    if npc.has_status?(:shock)
+    if npc.has_status?(:shocked)
       args.state.kronos.spend_time(npc, npc.walking_speed * 4, args)
       return
     end
@@ -203,7 +203,7 @@ class Behaviour
   end
 
   def wander args
-    if @npc.has_status?(:shock)
+    if @npc.has_status?(:shocked)
       args.state.kronos.spend_time(@npc, @npc.walking_speed * 4, args)
       return
     end

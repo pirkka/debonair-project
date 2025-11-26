@@ -281,10 +281,10 @@ class Entity
 
   def recover_shock(args)
     # default: do nothing
-    if self.has_status?(:shock)
+    if self.has_status?(:shocked)
       if args.state.rng.d20 == 20
         # recover some shock over time
-        self.remove_status(:shock)
+        self.remove_status(:shocked)
         HUD.output_message(args, "#{self.name} recovers from shock.")
       end
     end

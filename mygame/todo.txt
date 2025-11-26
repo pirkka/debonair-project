@@ -10,12 +10,14 @@ NOTES ON GAME SYSTEM
 - how many seconds is the time unit? (maybe 10?)
 
 TODO LIST
-- minimap
+- make the game slow down properly when there is danger/combat by adding input cooldown
+    - new entity detected
+    - sustaining damage
+- wands
+- temporary status effects like poison
 - architect secret doors
 - architect secret/hidden items
 - detective should detect secret doors automagically
-- separate map screen
-- make the game slow down properly when there is danger/combat!!!
 - status / emotion markers!!!
 - drop weapon when hand is hit, skill modifiers, handedness, wield-hand
 - walking speed modifiers for wounds below waist
@@ -34,6 +36,7 @@ TODO LIST
 - armor
 
 DONE LIST
+- minimap
 - detect traps
 - traps
 - smaller levels

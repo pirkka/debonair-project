@@ -24,7 +24,7 @@ class Trauma
 
   def self.kinds
     {
-      physical: [:cut, :bruise, :pierce, :fracture, :burn, :cold, :sprain, :bite, :internal_injury],
+      physical: [:cut, :bruise, :pierce, :fracture, :burn, :cold, :sprain, :bite, :internal_injury, :poison],
       mental: [:concussion, :stress],
       emotional: [:grief, :anxiety, :fear, :depression]
     }
@@ -42,10 +42,10 @@ class Trauma
       @severity = :healed
     end
     # check for shock recovery
-    if entity.has_status?(:shock)
+    if entity.has_status?(:shocked)
       still_shocked = Trauma.determine_shock(entity)  
       unless still_shocked
-        entity.remove_status(:shock)
+        entity.remove_status(:shocked)
       end
     end
   end
@@ -92,8 +92,8 @@ class Trauma
     end
     shocked = self.determine_shock(entity)
     if shocked
-      unless entity.has_status?(:shock)
-        Status.new(entity, :shock, nil, args)
+      unless entity.has_status?(:shocked)
+        Status.new(entity, :shocked, nil, args)
         HUD.output_message(args, "#{entity.name.capitalize} goes into shock!")
       end
     end

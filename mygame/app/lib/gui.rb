@@ -495,7 +495,7 @@ class GUI
   # return false if move not possible
   def self.move_player dx, dy, args
     hero = args.state.hero
-    if hero.has_status?(:shock)
+    if hero.has_status?(:shocked)
       HUD.output_message args, "You attempt to move but cannot due to shock!"
       args.state.kronos.spend_time(hero, hero.walking_speed * 4, args)
       return true
@@ -697,6 +697,10 @@ class GUI
     alpha = ((duration - frames_used).to_f / duration.to_f * 100.0).to_i.clamp(0, 100)
     if color_flash[0] == :red
       args.outputs.primitives << { x: 0, y: 0, w: 1280, h: 720, path: :solid, r: 200, g: 0, b: 0, a: alpha, blendmode_enum: 1 }
+    end
+    if color_flash[0] == :purple
+      args.outputs.primitives << { x: 0, y: 0, w: 1280, h: 720, path: :solid, r: 150, g: 0, b: 150, a: alpha, blendmode_enum: 1 }
+      GUI.flash_screen(:purple, args)
     end
   end
 

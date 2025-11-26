@@ -21,7 +21,7 @@ class Combat
         return
       end
     end
-    if defender.has_status?(:shock)
+    if defender.has_status?(:shocked)
       to_hit -= 10
     end
     weapon_modifier = 0
@@ -63,7 +63,7 @@ class Combat
       return # miss
     end
     # defender attempts to dodge
-    if !attacker.invisible? && !defender.has_status?(:shock)
+    if !attacker.invisible? && !defender.has_status?(:shocked)
       dodge_roll = args.state.rng.d20
       dodge_roll -= 3 # just to make it a bit less likely to dodge  
       if dodge_roll > attack_roll
@@ -81,7 +81,7 @@ class Combat
     HUD.output_message args, "#{aname} bruises #{dname}'s #{body_part.to_s.gsub('_', ' ')} #{hit_severity}ly."
     defender_shocked = Trauma.determine_shock(defender)
     if defender_shocked
-      Status.new(defender, :shock, nil, args)
+      Status.new(defender, :shocked, nil, args)
       defender.drop_wielded_items(args)
       HUD.output_message args, "#{dname} is in shock from trauma!"
     end
