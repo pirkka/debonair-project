@@ -213,6 +213,37 @@ class GUI
     end
   end
 
+  def self.handle_changing_facing args
+    if !args.inputs.keyboard.key_held.command # || args.inputs.controller_one.key_held.l2
+      return false
+    end
+    printf "Changing facing direction based on input\n"
+    hero = args.state.hero
+    original_face = hero.facing
+    new_face = nil
+    if args.inputs.up
+      new_face = :north
+    elsif args.inputs.down
+      new_face = :south
+    elsif args.inputs.left
+      new_face = :west
+    elsif args.inputs.right
+      new_face = :east
+    else
+      return false
+    end
+    if original_face != new_face
+      hero.facing = new_face      
+      HUD.output_message args, "You are now facing #{new_face.to_s}."
+      args.state.kronos.spend_time(hero, hero.walking_speed * 0.20, args)
+      @@tiles_observed = false # force re-observation
+      self.add_input_cooldown 20
+      return true
+    else
+      return false # already facing there
+    end
+  end
+
   def self.handle_input args
     $input_frames ||= 0
     $input_frames += 1
@@ -228,6 +259,7 @@ class GUI
     else
       @@strafing = false
     end
+
     if args.controller_one.key_held.l2 || args.inputs.keyboard.key_held.tab
       # look mode
       self.handle_look_mode(args)
@@ -254,6 +286,7 @@ class GUI
     end
     # inventory management can happen in parallel
     self.handle_inventory_input args
+    return if self.handle_changing_facing args # if the facign change was successful we are done
     unless GUI.is_hero_locked? # already moving
       # add a slight cooldown to prevent rapid movement
       @@input_cooldown ||= 0

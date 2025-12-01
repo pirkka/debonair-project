@@ -9,10 +9,9 @@ NOTES ON GAME SYSTEM
 - how long distance is one square?
 - how many seconds is the time unit? (maybe 10?)
 
-TODO LIST'
-- strafing (lock your facing while moving alt+direction)
+TODO LIST
 - changing your facing (command + direction)
-- more monster emotes (textual ones)
+- more monster emotes (textual ones) - when behaviour changes!
 - stealth/hearing mechanics
 - if we have field of view, how to communicate hearing to the player (and/or smell)
 - drop weapon when hand is hit, skill modifiers, handedness, wield-hand
@@ -36,6 +35,7 @@ TODO LIST'
 - armor
 
 DONE LIST
+- strafing (lock your facing while moving alt+direction)
 - facing to direction + field of view!!!! this could be huge for immersion, horror elements, crazy situations
 - walking speed modifiers for wounds below waist
 - different weapons make different damage, cutting/slicing weapons (not just bruises)

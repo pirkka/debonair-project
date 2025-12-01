@@ -35,7 +35,7 @@ class HUD
       args.outputs.labels << {
         x: 960,
         y: 620 - index * 16,
-        text: "#{trauma.severity} #{trauma.kind.to_s.gsub('_',' ')} on #{trauma.body_part.to_s.gsub('_',' ')}",
+        text: "#{trauma.severity} #{trauma.kind.to_s.gsub('_',' ')} trauma on #{trauma.body_part.to_s.gsub('_',' ')}",
         size_enum: 0,
         r: 255,
         g: 0,

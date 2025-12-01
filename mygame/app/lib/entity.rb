@@ -12,6 +12,7 @@ class Entity
   attr_accessor :traits
   attr_accessor :hands
   attr_accessor :facing # :south, :north, :east, :west
+  attr_accessor :mode_of_movement
 
   def self.kinds
     [:generic, :item, :pc, :npc, :plant, :furniture]
@@ -37,6 +38,7 @@ class Entity
     @traits = []
     @hands = [:right, :left] # in order of preference
     @facing = :west
+    @mode_of_movement = :normal # :sneaking, :running, :walking
   end
 
   def is_hostile_to?(other_entity)
