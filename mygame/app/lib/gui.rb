@@ -142,7 +142,8 @@ class GUI
       hero.facing = new_face      
       HUD.output_message args, "You are now facing #{new_face.to_s}."
       args.state.kronos.spend_time(hero, hero.walking_speed * 0.20, args)
-      @@tiles_observed = false # force re-observation
+      GUI.mark_tiles_stale
+      Lighting.mark_lighting_stale
       self.add_input_cooldown 20
       return true
     else

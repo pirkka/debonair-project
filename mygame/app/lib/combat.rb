@@ -16,6 +16,21 @@ class Combat
     end
   end
 
+  def self.ranged_to_hit_probability(attacker, defender, item, args)
+    dx = (attacker.x - defender.x).abs
+    dy = (attacker.y - defender.y).abs
+    distance = Math.sqrt(dx * dx + dy * dy)
+    if distance <= 3
+      return 0.8
+    elsif distance <= 6
+      return 0.6
+    elsif distance <= 10
+      return 0.4
+    else
+      return 0.2
+    end
+  end
+
   def self.resolve_ranged_attack(attacker, item, defender, args)
     aname = attacker.name
     dname = defender.name
@@ -64,6 +79,8 @@ class Combat
     if defender.has_status?(:shocked)
       to_hit -= 5
     end
+    # we are done with the modifiers
+    printf "Ranged attack roll: %d vs to hit %d (base roll %d, inaccuracy penalty %d)\n" % [attack_roll, to_hit, base_attack_roll, inaccuracy_penalty]
     # does it even hit?
     if attack_roll < to_hit 
       HUD.output_message args, "#{aname} shoots #{item.title(args)} at #{dname} but misses."

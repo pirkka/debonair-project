@@ -326,4 +326,8 @@ class Entity
       @facing = :south
     end   
   end
+
+  def set_depth(new_depth, args)
+    @depth = new_depth
+  end
 end

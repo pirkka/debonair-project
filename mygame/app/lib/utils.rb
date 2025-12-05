@@ -78,7 +78,10 @@ module Utils
     current_level.entities.delete(entity)
     # add to target level
     target_level = self.level_by_depth(target_depth, args)
-    entity.depth = target_depth
+    entity.set_depth(target_depth, args)
+    if entity == args.state.hero
+      entity.max_depth = entity.depth if entity.depth > entity.max_depth
+    end
     target_level.entities << entity
     # check the target tile - is it a wall or rock?
     target_tile = target_level.tiles[entity.y][entity.x]

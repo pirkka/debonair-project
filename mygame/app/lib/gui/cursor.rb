@@ -165,6 +165,13 @@ class GUI
     GUI.draw_inspector args, level
   end
 
+  def self.follow_entity_with_cursor(entity, x, y, args)
+    if @@look_mode_x == entity.x && @@look_mode_y == entity.y
+      @@look_mode_x = x
+      @@look_mode_y = y
+    end
+  end
+
       # gather all visible things
       # visible_things = GUI::Cursor.get_all_points_of_interest(args)
       # thing = nil

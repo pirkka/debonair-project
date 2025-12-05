@@ -69,6 +69,7 @@ class Tile
   def self.enter(entity, x, y, args)
     level = Utils.level_by_depth(entity.depth, args)
     tile = level.tile_at(x, y)
+    GUI.follow_entity_with_cursor(entity, x, y, args)
     entity.x = x
     entity.y = y
     base_walking_speed = entity.walking_speed || 1.0
@@ -78,6 +79,7 @@ class Tile
     args.state.kronos.spend_time(entity, time_spent, args)
     Lighting.mark_lighting_stale
     GUI.mark_tiles_stale
+    HUD.mark_minimap_stale
     entity.detect_traps args if entity == args.state.hero
     entity.walking_sound(tile, args)
   end
